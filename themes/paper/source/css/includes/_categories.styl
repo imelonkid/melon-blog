@@ -1,0 +1,51 @@
+.categories-view
+  width: 100%
+  
+.categories-container
+  max-width: 800px
+  margin: 0 auto
+  padding: 2rem 1rem
+  
+  .page-title
+    font-size: 2rem
+    font-weight: 700
+    margin-bottom: 2rem
+    text-align: center
+    
+  .categories-list
+    .category-list
+      list-style: none
+      padding: 0
+      margin: 0
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+      gap: 1rem
+      
+      .category-list-item
+        background: #f5f5f5
+        padding: 0.5rem 1rem
+        border-radius: 20px
+        transition: all 0.3s ease
+        
+        &:hover
+          background: #ebc65a
+          transform: translateY(-3px)
+          
+          a
+            color: white
+        
+        a
+          color: #333
+          text-decoration: none
+          font-weight: 500
+          
+        .category-list-count
+          margin-left: 0.5rem
+          color: #666
+          font-size: 0.9rem
+          
+  .no-categories
+    text-align: center
+    color: #666
+    margin-top: 3rem 

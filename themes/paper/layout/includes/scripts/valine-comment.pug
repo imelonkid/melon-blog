@@ -1,0 +1,19 @@
+#comments
+script(src="https://unpkg.com/valine/dist/Valine.min.js" defer)
+script.
+  document.addEventListener('DOMContentLoaded', () => {
+    new Valine({
+      el: '#comments',
+      appId: '#{theme.comment.appId}',
+      appKey: '#{theme.comment.appKey}',
+      placeholder: '#{theme.comment.placeholder}',
+      avatar: '#{theme.comment.avatar}',
+      pageSize: #{theme.comment.pageSize || 10},
+      lang: '#{theme.comment.lang || "zh-CN"}',
+      visitor: #{theme.comment.visitor || false},
+      recordIP: #{theme.comment.recordIP || false},
+      enableQQ: #{theme.comment.enableQQ || false},
+      guest_info: '#{theme.comment.guest_info || "nick,mail,link"}'.split(','),
+      meta: '#{theme.comment.guest_info || "nick,mail,link"}'.split(',')
+    })
+  })

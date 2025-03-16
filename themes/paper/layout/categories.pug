@@ -1,0 +1,13 @@
+extends ./includes/layout.pug
+
+block content
+  .categories-view
+    include includes/location-bar.pug
+    .categories-container
+      h1.page-title= page.title
+      .categories-list
+        != list_categories({show_count: true})
+      
+      if site.categories.length === 0
+        .no-categories
+          p 暂无分类内容，请先为文章添加分类。 

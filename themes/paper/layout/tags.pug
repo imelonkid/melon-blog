@@ -1,0 +1,13 @@
+extends ./includes/layout.pug
+
+block content
+  .tags-view
+    include includes/location-bar.pug
+    .tags-container
+      h1.page-title= page.title
+      .tags-list
+        != list_tags({show_count: true})
+      
+      if site.tags.length === 0
+        .no-tags
+          p 暂无标签内容，请先为文章添加标签。 

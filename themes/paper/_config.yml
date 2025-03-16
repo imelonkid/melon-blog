@@ -1,0 +1,69 @@
+# html lang
+language: zh
+
+# main menu navigation
+menu:
+  Home: /
+  About: /about
+
+# stylesheets loaded in the <head>
+stylesheets:
+
+stylesheets_preload:
+- https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css # for highlight
+- https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap # for font
+
+# scripts loaded in the end of the body
+scripts_defer:
+- https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js # for highlight
+- /js/paper.js # for basic script
+
+
+social:
+  Github: https://github.com/imelonkid
+  Mail: iworkvip@gmail.com
+  # and more, you can add other link by the same way
+
+
+# Uncomment to disable sidebar
+# toc: false
+# link: false
+# archives: false
+# categories: false
+# tags: false
+
+# theme color
+main_color: gray # forest | grass | sky | sun | sea
+
+# MathJax配置
+math:
+  mathjax:
+    enable: true
+    cdn: https://cdn.staticfile.org/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML
+
+# google Analytics
+google_analytics_id: xx-xxxxxxx-xx
+
+# comment module
+comment:
+  enable: true
+  type: valine # valine | utterances
+
+  # valine 需要的参数
+  appId: kVnoh5GMJIaO7wfioxy7eqat-gzGzoHsz
+  appKey: OqRohOLiM36VuNLF5jjAJkap
+  pageSize: 10 # comment list page size
+  avatar: mp # gravatar style https://valine.js.org/#/avatar
+  lang: zh-CN # i18n: zh-CN/zh-TW/en/ja
+  placeholder: Please leave your footprints # valine comment input placeholder (like: Please leave your footprints)
+  guest_info: nick,mail,link # valine comment header info (nick/mail/link)
+  recordIP: false # Record reviewer IP
+  serverURLs: # This configuration is suitable for domestic custom domain name users, overseas version will be automatically detected (no need to manually fill in)
+  bg: # valine background
+  emojiCDN: # emoji CDN
+  enableQQ: false # enable the Nickname box to automatically get QQ Nickname and QQ Avatar
+
+  # utterances (https://utteranc.es/) 需要的参数
+  repo: your-repo-name
+  issue_term: your-issue-term
+  theme: your-comment-theme

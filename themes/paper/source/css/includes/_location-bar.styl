@@ -1,0 +1,37 @@
+.location-bar
+  position: relative
+  .line-1
+    margin-bottom: 2px
+  .text
+    text-align: center
+    text-size(s-1)
+    margin: 0.2em 0
+    padding: 0 4rem
+    overflow: hidden
+    text-overflow:ellipsis
+    white-space: nowrap
+  .line-1,.line-2,.line-3
+    background: $color-black-2
+    
+  .nav-container
+    display: flex
+    justify-content: center
+    align-items: center
+    margin: 0.5rem 0
+    flex-wrap: wrap
+    
+    .nav-item
+      display: inline-block
+      padding: 0.3rem 1rem
+      margin: 0 0.5rem
+      color: #2c3e50
+      text-decoration: none
+      font-size: 1.5rem
+      transition: all 0.3s ease
+      
+      &:hover
+        color: $color-main
+        
+      &:active, &.active
+        color: $color-main
+        font-weight: bold

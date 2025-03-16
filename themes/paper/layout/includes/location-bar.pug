@@ -23,6 +23,9 @@ include ../mixins/horizontalLine.pug
     a.nav-item(href="/categories") 分类
     a.nav-item(href="/tags") 标签
     a.nav-item(href="/about") 关于
+    .search-container
+      button.search-button(id="search-button") 
+        i.search-icon 🔍
   include ./switch-button
   .line-3
     +horizontalLine('1px')

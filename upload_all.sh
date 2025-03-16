@@ -1,3 +1,6 @@
+#!/bin/bash
+
+# 设置工作目录和程序名
 WORKSPACE=/Users/melonkid/Workspace/myself
 PROGRAM_NAME="melon-blog"
 

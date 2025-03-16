@@ -31,7 +31,7 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
-  - "mhtm/**" 
+  - "mhtm/**"
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -47,17 +47,26 @@ post_asset_folder: true
 relative_link: false
 future: true
 highlight:
-  enable: false
-  line_number: false
-  auto_detect: false
-  tab_replace: ''
-  wrap: true
   hljs: true
+  enable: true
+  line_number: false
+  auto_detect: true
+  tab_replace: ''
 prismjs:
   enable: false
   preprocess: true
   line_number: true
   tab_replace: ''
+
+# 允许在Markdown中使用HTML标签
+marked:
+  gfm: true
+  pedantic: false
+  sanitize: false
+  tables: true
+  breaks: true
+  smartLists: true
+  smartypants: true
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -101,7 +110,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: ringo
+theme: paper
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

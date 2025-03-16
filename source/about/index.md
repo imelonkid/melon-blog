@@ -424,7 +424,7 @@ layout: page
 
 <div class="about-page">
   <div class="profile-header">
-    <img src="/images/about/mk.png" alt="朝花夕拾" class="avatar">
+    <img src="/images/common/favicon.ico" alt="朝花夕拾" class="avatar">
     <h1 class="profile-name">朝花夕拾</h1>
     <p class="profile-title">A Development Engineer, a Life Liver, a Hope Holder</p>
     <div class="profile-bio">

@@ -1,0 +1,26 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import Base from '../layouts/Base.astro';
+import EntryList from '../components/EntryList.astro';
+import Pager from '../components/Pager.astro';
+import { allPosts, type Post } from '../lib/posts';
+import { SITE } from '../consts';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await allPosts();
+  return paginate(posts, { pageSize: SITE.pageSize });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props as { page: Page<Post> };
+---
+
+<Base>
+  <main>
+    <div class="intro">
+      <p>{SITE.intro}</p>
+      <p class="count">{page.total} POSTS · SINCE {SITE.since}</p>
+    </div>
+    <EntryList posts={page.data} />
+    <Pager page={page} />
+  </main>
+</Base>

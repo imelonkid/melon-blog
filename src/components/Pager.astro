@@ -1,0 +1,28 @@
+---
+import type { Page } from 'astro';
+
+interface Props { page: Page }
+const { page } = Astro.props;
+
+const CN = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+const label = (n: number) => CN[n - 1] ?? String(n);
+const href = (n: number) => (n === 1 ? '/' : `/${n}`);
+const nums = Array.from({ length: page.lastPage }, (_, i) => i + 1);
+---
+
+{page.lastPage > 1 && (
+  <nav class="pager" aria-label="分页">
+    <a class:list={['step', { off: !page.url.prev }]} href={page.url.prev ?? '#'} aria-disabled={!page.url.prev}>上一页</a>
+    <div class="nums">
+      <span class="rule" aria-hidden="true"></span>
+      {nums.map((n) => (
+        <a class="num" href={href(n)} aria-current={n === page.currentPage ? 'page' : undefined}>
+          <span>{label(n)}</span>
+          <span class="dot" aria-hidden="true"></span>
+        </a>
+      ))}
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <a class:list={['step', { off: !page.url.next }]} href={page.url.next ?? '#'} aria-disabled={!page.url.next}>下一页</a>
+  </nav>
+)}

@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../consts';
+---
+
+<Base title="关于" section="about" description={`关于 ${SITE.title}`}>
+  <main style="margin-top: 64px;">
+    <h1 class="page-head">关于 <span class="en">ABOUT</span></h1>
+    <div class="rule" style="margin: 26px 0 36px;" aria-hidden="true"></div>
+    <div class="page-body">
+      <p>你好，我是这个博客的主人。白天工作，晚上读书、走路、写一点字。</p>
+      <p>这里没有更新计划，也没有主题限制——想到什么写什么，写得慢，但尽量写得诚实。</p>
+      <p>
+        如果某一篇恰好对你有用，或者你只是路过想聊聊，欢迎写信给我：<a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </p>
+    </div>
+  </main>
+</Base>

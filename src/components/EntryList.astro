@@ -1,0 +1,18 @@
+---
+import type { Post } from '../lib/posts';
+import { formatDate } from '../lib/posts';
+
+interface Props { posts: Post[] }
+const { posts } = Astro.props;
+---
+
+<div class="entries">
+  {posts.map((post) => (
+    <a class="entry" href={`/posts/${post.id}`}>
+      <span class="date">{formatDate(post.data.date)}</span>
+      <span class="title">{post.data.title}</span>
+      <span class="meta">{post.data.tag} · {post.data.mins} MIN</span>
+      <p class="excerpt">{post.data.excerpt}</p>
+    </a>
+  ))}
+</div>

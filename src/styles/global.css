@@ -230,14 +230,23 @@ a:hover { opacity: .75; }
 }
 
 /* 历史文章大量使用裸 <img>，且常常和正文挤在同一段里（图片行前有缩进、
-   前后没有空行）。强制成块级元素，让每张图独占一行，并压掉那些
-   height="40%" 之类会压扁图片的老属性。 */
+   前后没有空行）。强制成块级元素，让每张图独占一行。
+
+   宽高属性一并丢掉：原文里的 width="50%/80%/90%" 是当年逐张目测调的，
+   不携带信息，各不相同的宽度配上居中会让左边缘参差不齐。所有原图都比
+   正文栏宽，统一铺满栏宽只会缩小、不会糊。 */
 .prose img {
   display: block;
+  width: auto;
   max-width: 100%;
   height: auto;
-  margin: 24px auto;
-  border-radius: 4px;
+  max-height: 640px;         /* 竖图不至于吃掉整屏；用 px 而非 vh，
+                                避免打印或异常视口下高度塌成 0 */
+  /* 上紧下松：图片和上方的说明文字成一组，与下一段拉开 */
+  margin: 10px 0 34px;
+  /* 截图多为白底，和米白页底融在一起就看不出边界，需要一道细边框 */
+  border: 1px solid var(--line);
+  border-radius: 6px;
 }
 .prose p > img:first-child { margin-top: 0; }
 

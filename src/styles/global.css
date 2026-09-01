@@ -229,8 +229,20 @@ a:hover { opacity: .75; }
   border-radius: 4px;
 }
 
+/* 历史文章大量使用裸 <img>，且常常和正文挤在同一段里（图片行前有缩进、
+   前后没有空行）。强制成块级元素，让每张图独占一行，并压掉那些
+   height="40%" 之类会压扁图片的老属性。 */
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 24px auto;
+  border-radius: 4px;
+}
+.prose p > img:first-child { margin-top: 0; }
+
 .prose figure { margin: 34px 0 0; }
-.prose figure img { width: 100%; height: auto; display: block; border-radius: 6px; }
+.prose figure img { width: 100%; height: auto; display: block; border-radius: 6px; margin: 0; }
 .prose figcaption {
   margin-top: 10px;
   font-family: var(--mono);

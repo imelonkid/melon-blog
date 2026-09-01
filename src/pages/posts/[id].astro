@@ -10,15 +10,14 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { post } = Astro.props;
-const { Content } = await render(post);
-const { title, date, tag, mins, excerpt } = post.data;
+const { Content } = await render(post.entry);
 ---
 
-<Base title={title} description={excerpt}>
+<Base title={post.title} description={post.excerpt}>
   <article class="article">
     <a class="back" href="/">← BACK</a>
-    <div class="stamp">{formatDate(date)} · {tag} · {mins} MIN READ</div>
-    <h1>{title}</h1>
+    <div class="stamp">{formatDate(post.date)} · {post.tag} · {post.mins} MIN READ</div>
+    <h1>{post.title}</h1>
     <div class="rule" aria-hidden="true"></div>
     <div class="prose">
       <Content />

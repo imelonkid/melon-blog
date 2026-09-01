@@ -7,7 +7,7 @@ import rehypeCodeFigure from './src/lib/rehype-code-figure.mjs';
 // https://astro.build/config
 export default defineConfig({
   // 部署前改成真实域名：影响 canonical、sitemap 和 RSS 里的绝对链接
-  site: 'https://example.com',
+  site: 'https://blog.melonkid.cn',
   integrations: [sitemap()],
   markdown: {
     processor: unified({ rehypePlugins: [rehypeCodeFigure] }),

@@ -12,6 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.122.0",
     "@astrojs/markdown-remark": "^7.3.0",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "tsx": "^4.23.13",
     "typescript": "^6.0.3"
   }
 }

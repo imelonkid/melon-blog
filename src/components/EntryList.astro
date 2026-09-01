@@ -9,10 +9,10 @@ const { posts } = Astro.props;
 <div class="entries">
   {posts.map((post) => (
     <a class="entry" href={`/posts/${post.id}`}>
-      <span class="date">{formatDate(post.data.date)}</span>
-      <span class="title">{post.data.title}</span>
-      <span class="meta">{post.data.tag} · {post.data.mins} MIN</span>
-      <p class="excerpt">{post.data.excerpt}</p>
+      <span class="date">{formatDate(post.date)}</span>
+      <span class="title">{post.title}</span>
+      <span class="meta">{post.tag} · {post.mins} MIN</span>
+      {post.excerpt && <p class="excerpt">{post.excerpt}</p>}
     </a>
   ))}
 </div>

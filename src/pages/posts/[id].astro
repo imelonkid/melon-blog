@@ -3,19 +3,28 @@ import type { GetStaticPaths } from 'astro';
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { allPosts, formatDate } from '../../lib/posts';
+import { SITE } from '../../consts';
 
 export const getStaticPaths = (async () => {
   const posts = await allPosts();
-  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+  return posts.map((post, i) => {
+    // 文章在列表里的序号决定它落在第几页；返回链接指向那一页，
+    // 而不是一律回首页——读者正是从那一页点进来的
+    const page = Math.floor(i / SITE.pageSize) + 1;
+    return {
+      params: { id: post.id },
+      props: { post, backHref: page === 1 ? '/' : `/${page}` },
+    };
+  });
 }) satisfies GetStaticPaths;
 
-const { post } = Astro.props;
+const { post, backHref } = Astro.props;
 const { Content } = await render(post.entry);
 ---
 
 <Base title={post.title} description={post.excerpt}>
   <article class="article">
-    <a class="back" href="/">← BACK</a>
+    <a class="back" href={backHref}>← BACK</a>
     <div class="stamp">{formatDate(post.date)} · {post.tag} · {post.mins} MIN READ</div>
     <h1>{post.title}</h1>
     <div class="rule" aria-hidden="true"></div>

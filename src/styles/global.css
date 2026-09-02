@@ -62,7 +62,25 @@ a:hover { opacity: .75; }
   padding-bottom: 20px;
   border-bottom: 1px solid var(--line);
 }
-.brand { font-size: 17px; font-weight: 600; letter-spacing: .18em; }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: .18em;
+}
+/* 羽毛标记：单文件深墨版，深色模式靠 filter 反相，不用维护两份 */
+.brand-mark {
+  height: 21px;
+  width: auto;
+  display: block;
+  transform: translateY(-1px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .brand-mark { filter: invert(1); }
+}
+:root[data-theme='dark'] .brand-mark { filter: invert(1); }
 .masthead nav {
   display: flex;
   gap: 28px;

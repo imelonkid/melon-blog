@@ -67,7 +67,7 @@ src/
 
 ## 部署前
 
-`astro.config.mjs` 里的 `site` 已设为 `https://blog.melonkid.cn`，canonical、sitemap 和 RSS 里的绝对链接都基于它。换域名时改这一处即可。
+`astro.config.mjs` 里的 `site` 已设为 `https://melonkid.cn`，canonical、sitemap 和 RSS 里的绝对链接都基于它。换域名时改这一处即可。
 
 构建产物是纯静态文件，Vercel / Cloudflare Pages / Netlify 直接托管 `dist/` 即可。
 

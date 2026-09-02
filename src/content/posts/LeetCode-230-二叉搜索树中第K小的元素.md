@@ -5,8 +5,8 @@ tags: [leetCode, 算法, 二叉树, 搜索树]
 ---
 
 ## 题目
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1634479610925-c498ecd1-e138-4f68-a543-eacf9b28e3a8.png#clientId=u77b8b130-1f03-4&from=paste&height=486&id=uf48101d0&margin=%5Bobject%20Object%5D&name=image.png&originHeight=972&originWidth=1128&originalType=binary&ratio=1&size=141000&status=done&style=none&taskId=u43cad449-ca6c-4b2e-bd0d-af56a4c4af0&width=564)
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1634479633266-1cf80fde-6f57-4250-aa65-a3632f2d88d0.png#clientId=u77b8b130-1f03-4&from=paste&height=408&id=ud5a41404&margin=%5Bobject%20Object%5D&name=image.png&originHeight=816&originWidth=1146&originalType=binary&ratio=1&size=140157&status=done&style=none&taskId=ud4d9f2cb-66a9-439b-b788-214a17dbfee&width=573)
+![image.png](/images/yuque/d66ff3ebf798.png)
+![image.png](/images/yuque/fbe0c5f08aa4.png)
 
 
 ## 思路

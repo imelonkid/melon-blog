@@ -4,7 +4,7 @@ date: 2021-10-11 22:44:35
 tags: [leetcode, 算法, 动态规划]
 ---
 
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1633954927299-f368b7ab-27f7-4c34-8a3f-978634c654e1.png#clientId=u42e9ea98-1ed4-4&from=paste&height=628&id=u06deb707&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1256&originWidth=1408&originalType=binary&ratio=1&size=159850&status=done&style=none&taskId=uf062ccf5-0965-4435-af63-cab234a7f3a&width=704)
+![image.png](/images/yuque/7b9ec791c0f6.png)
 ## 思路
 ### 动态规划：
 根据跟定条件可以看出，这道题其实就是一个m*n的二维表格。对于给定的位置p(x,y)，能到达p的所有可能情况有
@@ -18,11 +18,11 @@ tags: [leetcode, 算法, 动态规划]
 在这个二维表格中，从初始位置到边界的任何位置，都只有一条路径。所以每个边界上的位置的所有可能路径都是1。
 ​
 
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1633956123229-2829be6d-9186-4f26-a784-b1cd89c09142.png#clientId=u42e9ea98-1ed4-4&from=paste&height=160&id=u21a56529&margin=%5Bobject%20Object%5D&name=image.png&originHeight=320&originWidth=1472&originalType=binary&ratio=1&size=53472&status=done&style=none&taskId=ub459fcaf-7c24-489f-a284-c3b14e05247&width=736)
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1633956663340-92c63c4d-97ee-48b3-9b22-3fce4c1b5b39.png#clientId=u42e9ea98-1ed4-4&from=paste&height=516&id=uc00166a1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1032&originWidth=1444&originalType=binary&ratio=1&size=174990&status=done&style=none&taskId=u7abe2dfd-3e10-43ad-a779-252f3dfce91&width=722)
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1633956684919-3f3cf2aa-b25f-45f9-a0fe-ccdef1d4e951.png#clientId=u42e9ea98-1ed4-4&from=paste&height=154&id=ue828c396&margin=%5Bobject%20Object%5D&name=image.png&originHeight=308&originWidth=1438&originalType=binary&ratio=1&size=57228&status=done&style=none&taskId=u3075a308-3d3f-42c4-a0b4-bf5ec874914&width=719)
+![image.png](/images/yuque/3426c7d073bd.png)
+![image.png](/images/yuque/dc1768f97a98.png)
+![image.png](/images/yuque/cfb6121d8b91.png)
 所以如上图所示，对于给定表格的任何位置，所有路径可能的动态转移方程为：
-![](https://cdn.nlark.com/yuque/__latex/9f74740d17ebd0d9dfdfb928c6659a18.svg#card=math&code=f%28x%2Cy%29%3Df%28x-1%2C%20y%29%20%2B%20f%28x%2C%20y-1%29&id=G9SVo)
+![](/images/yuque/a7931071e63f.png)
 由上图可知，机器人到达(1,1)位置的所有可能路径为:1+1=2;  
 到达(1,2)位置的所有可能路径为：2+1=3；  
 以此类推：达到最右下角(2,2)的所有路径可能为3+3=6.  
@@ -60,7 +60,7 @@ public int solution(int m, int n) {
 ### 递归：
 由上面动态规划可知，要计算表格某个位置的所有路径，只需要知道他上面位置和左边位置的所有路径，并求和即可。  
 那么对于3*3的表格，计算机器到达(2,2)位置的递归过程为：  
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1633960388559-53efd8a7-b9ae-4afd-bfa2-d56840df8d08.png#clientId=u42e9ea98-1ed4-4&from=paste&height=314&id=u0f9a7004&margin=%5Bobject%20Object%5D&name=image.png&originHeight=628&originWidth=1732&originalType=binary&ratio=1&size=160930&status=done&style=none&taskId=u65bb0312-cf78-4dc9-8161-f31ac3a8fd9&width=866)
+![image.png](/images/yuque/66fb488df2a1.png)
 #### 实现：
 ```java
 public int solution(int m, int n) {

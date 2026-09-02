@@ -4,7 +4,7 @@ date: 2021-09-20 18:24:38
 tags: [方案, 令牌桶, 算法]
 ---
 
-<img src="https://cdn.nlark.com/yuque/0/2021/png/127227/1632132940851-c4983e33-27f8-49bd-8259-21236122b316.png#clientId=u8fe55d9d-ef9c-4&from=paste&height=459&id=ua2d4b410&margin=%5Bobject%20Object%5D&name=image.png&originHeight=918&originWidth=812&originalType=binary&ratio=1&size=121128&status=done&style=none&taskId=u7db862d2-903d-4e3d-9753-9e7325dbdd4&width=6" alt="图片替换文本" width="500" height="313" />
+<img src="/images/yuque/707d83350e66.png" alt="图片替换文本" width="500" height="313" />
 
 
 

@@ -29,12 +29,16 @@ function plainText(body: string): string {
     .replace(/&nbsp;/g, ' ');
 }
 
-/** 中文按 350 字/分钟，英文按 200 词/分钟估算 */
+/**
+ * 中文按 300 字/分钟，英文按 180 词/分钟估算；向上取整。
+ * 取整方式很重要：四舍五入会把 1.4 分钟的文章显示成「1 MIN」，
+ * 读者一眼就觉得不对。
+ */
 function readingMinutes(body: string): number {
   const text = plainText(body);
   const cjk = (text.match(/[一-鿿　-〿]/g) ?? []).length;
   const words = (text.match(/[A-Za-z0-9][A-Za-z0-9'-]*/g) ?? []).length;
-  return Math.max(1, Math.round(cjk / 350 + words / 200));
+  return Math.max(1, Math.ceil(cjk / 300 + words / 180));
 }
 
 /** 取正文第一段可读文字作为摘要 */

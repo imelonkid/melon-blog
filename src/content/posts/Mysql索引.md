@@ -22,7 +22,7 @@ B树是一种自平衡的多路查找树，多路查找树可以在一个节点�
 1. 每个节点中即包含了搜索KEY，还包含了要查找的数据
 1. 所有的叶子节点在同一层
 
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630922077660-97c22f02-2a97-4c11-900b-2f679c77c6bc.png#clientId=ua3bc44eb-3974-4&from=paste&height=384&id=u7fab85a7&margin=%5Bobject%20Object%5D&name=image.png&originHeight=768&originWidth=2140&originalType=binary&ratio=1&size=296630&status=done&style=none&taskId=uf6b23d50-3248-49b2-a5b2-e88b0cfe69e&width=1070)
+![image.png](/images/yuque/924285f62df6.png)
 
 
 ### B+树
@@ -32,7 +32,7 @@ B树是一种自平衡的多路查找树，多路查找树可以在一个节点�
 1. 叶子节点之间首位相连，形成一个双向链表
 
 结构如图：
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630923971359-4ad50d72-711f-4125-b61e-65eab1eec9c2.png#clientId=ua3bc44eb-3974-4&from=paste&height=395&id=uba8aea25&margin=%5Bobject%20Object%5D&name=image.png&originHeight=790&originWidth=2272&originalType=binary&ratio=1&size=250026&status=done&style=none&taskId=u15b38502-b692-4aaa-9b24-cc9886934cb&width=1136)
+![image.png](/images/yuque/341517a00843.png)
 
 
 ## 聚集索引
@@ -86,18 +86,18 @@ insert into unit_key_test_1 (a, b, c, d, e) values(7, 5, 1,2,6);
 explain select * from t where b = 'xx';	--用到了联合索引
 explain select * from t where b = 'xx' and c = 'xx'; --用到了联合索引
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630928162260-b92c47cf-8e62-4e7f-8476-b90edc10fad3.png#clientId=ua3bc44eb-3974-4&from=paste&height=63&id=u1483b3b8&margin=%5Bobject%20Object%5D&name=image.png&originHeight=126&originWidth=1462&originalType=binary&ratio=1&size=22348&status=done&style=none&taskId=ud45ea8b9-0d41-413c-82a2-489835cfd33&width=731)
+![image.png](/images/yuque/96730e0a535e.png)
 其中ref为两个常量，说明上面SQL两个条件都命中了索引。
 ```sql
 explain select * from unit_key_test_1 where b = 2 and c = 2 and d = 1;
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630928248873-d417e4dd-79af-474c-80e5-82255ec160c5.png#clientId=ua3bc44eb-3974-4&from=paste&height=63&id=u8a558756&margin=%5Bobject%20Object%5D&name=image.png&originHeight=126&originWidth=1598&originalType=binary&ratio=1&size=23312&status=done&style=none&taskId=u7d743456-16dc-4661-ad67-8d6d92c9c06&width=799)
+![image.png](/images/yuque/dbfd08f47b77.png)
 可能用到的索引是uidx，使用到的索引是uidx
 并且ref是三个常量，说明三个列都使用了索引。
 ```sql
 explain select * from unit_key_test_1 where b = 2 and d = 1;
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630928348984-b83097da-cdc5-4236-9fd7-7ea3f115e368.png#clientId=ua3bc44eb-3974-4&from=paste&height=78&id=u1a910bf3&margin=%5Bobject%20Object%5D&name=image.png&originHeight=156&originWidth=1576&originalType=binary&ratio=1&size=34697&status=done&style=none&taskId=u4bbe65a8-66e0-4733-a7ea-d486146a1d6&width=788)
+![image.png](/images/yuque/5547abc4b30d.png)
 使用到了索引，但是ref只有一个常量，说明只有b这个列用到了索引。
 #### 总结：SQL查询在联合索引上，要满足最左前缀树的规则
 

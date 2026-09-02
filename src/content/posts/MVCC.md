@@ -29,7 +29,7 @@ CREATE TABLE user
 ```sql
 insert into user(name, age) values('zs', '男', 10);
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630669843886-d3de76bd-c2fb-4321-9739-77c1f0a32b3b.png#clientId=u01c4d551-faec-4&from=paste&height=74&id=u205ed89c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=148&originWidth=780&originalType=binary&ratio=1&size=11331&status=done&style=none&taskId=u9b0ce89f-cc09-44eb-90b6-04dda96dbb9&width=390)
+![image.png](/images/yuque/db30d3ce86cf.png)
 
 此时，在业务表中，三个隐藏字段的值分别为
 
@@ -51,7 +51,7 @@ update user set age=20 where name='zs';
 4). 更新记录数据缓存页，将新记录的DB_ROLL_PTR指向undoLog的上一版本记录
 5). 更新redoLog缓存页
 6). commit
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630670771884-8f12483d-2a57-491b-b63e-9e77464045c1.png#clientId=u01c4d551-faec-4&from=paste&height=242&id=u5ed36dbe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=484&originWidth=1018&originalType=binary&ratio=1&size=43898&status=done&style=none&taskId=u396488ef-4a5f-4dcf-bcba-c025b9135a7&width=509)
+![image.png](/images/yuque/c9d2ba3cb17a.png)
 
 3. 更新本条记录年龄为30
 ```sql
@@ -63,7 +63,7 @@ update user set age=30 where name='zs';
 4). 更新记录数据缓存页，将新记录的DB_ROLL_PTR指向undoLog的上一版本记录
 5). 更新redoLog缓存页
 6). commit
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630671053407-4a351770-0b2d-4269-a754-c7f58fc50098.png#clientId=u01c4d551-faec-4&from=paste&height=340&id=u6de2361f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=680&originWidth=1034&originalType=binary&ratio=1&size=61483&status=done&style=none&taskId=u22a5c978-a37b-461d-8c98-461ad823733&width=517)
+![image.png](/images/yuque/5c73a2e6f1a7.png)
 如上所述，当对某一条记录执行变更时，本条数据的历史版本都会在undoLog中保留。并且通过当前最新版本的数据都能追溯到所有历史版本。
 ​
 ## Read View
@@ -103,7 +103,7 @@ return true;
 ```
 总结下来，就是当前事务，只能访问小于视窗最大版本号的已提交事务版本。
 拿上面数据操作举例，事务可见性流程为：
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630674626424-d900ef35-d134-4a15-851d-27627ada6c0a.png#clientId=u01c4d551-faec-4&from=paste&height=226&id=u86a85ae6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=452&originWidth=1336&originalType=binary&ratio=1&size=66283&status=done&style=none&taskId=ue341d581-f803-48f5-a11e-b133c054c1f&width=668)
+![image.png](/images/yuque/65b71f110a82.png)
 如上图所示：如果事务B，C并发执行。对于事务B来说：min_trx_id=1, max_txr_id=3，m_ids=[1,2]，creator_trx_id=1。
 对于事务C来说：min_trx_id=1, max_txr_id=3，m_ids=[1,2]，creator_trx_id=2。
 #### case1:事务B快照查，事务C未提交
@@ -132,7 +132,7 @@ if(txr_id < min_txr_id) {
 ```sql
 update user set age=20 where name='zs'
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630675976800-6777fa02-203f-48af-9a84-8e8d64556185.png#clientId=u01c4d551-faec-4&from=paste&height=326&id=u05dc4bca&margin=%5Bobject%20Object%5D&name=image.png&originHeight=652&originWidth=1344&originalType=binary&ratio=1&size=91685&status=done&style=none&taskId=u1e3be89c-245b-4f5c-88b4-5df81b3dc81&width=672)
+![image.png](/images/yuque/c3ea7bf0c343.png)
 此时版本链中最新的版本是txr_id=1;
 事务B：min_trx_id=1, max_txr_id=3，m_ids=[1,2]，creator_trx_id=1。
 事务C：min_trx_id=1, max_txr_id=3，m_ids=[1,2]，creator_trx_id=2。
@@ -144,12 +144,12 @@ if(create_txr_id = txr_id) {
 ```
 #### case3:事务C提交，事务B不活跃，事务B查询
 在case1的基础上提交事务C
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630674626424-d900ef35-d134-4a15-851d-27627ada6c0a.png#clientId=u01c4d551-faec-4&from=paste&height=226&id=Kg7it&margin=%5Bobject%20Object%5D&name=image.png&originHeight=452&originWidth=1336&originalType=binary&ratio=1&size=66283&status=done&style=none&taskId=ue341d581-f803-48f5-a11e-b133c054c1f&width=668)
+![image.png](/images/yuque/73467692c5c3.png)
 由于快照视图在事务B查询的瞬间就已经产生，产生时，事务C尚未提交(属于活跃状态)。那么后面的事务提交不会影响到当前视窗。在当前视窗中，事务B的查询情况与case1一样。结果让然是10；
 ​
 
 #### case4:在case2的情况下，事务D更新数据，事务B查询
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/127227/1630676517721-d516f27b-898a-4c32-b2ac-bcf87eb07ee0.png#clientId=u01c4d551-faec-4&from=paste&height=416&id=ub5364553&margin=%5Bobject%20Object%5D&name=image.png&originHeight=832&originWidth=1356&originalType=binary&ratio=1&size=118914&status=done&style=none&taskId=uc4724a3d-9730-4b50-9552-43596949b55&width=678)
+![image.png](/images/yuque/59ff7b705db0.png)
 由于事务D的更新，版本链中最新的记录txr_id=3。
 但是快照视窗中的几个参数任然是：
 事务B：min_trx_id=1, max_txr_id=3，m_ids=[1,2]，creator_trx_id=1。

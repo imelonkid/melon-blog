@@ -70,6 +70,14 @@ a:hover { opacity: .75; }
   font-weight: 600;
   letter-spacing: .18em;
 }
+/* 站名用毛笔楷书，和羽毛笔标记是同一套语汇。
+   楷书字面比宋体小、笔画有提按，所以字号调大、字距收紧一点才平衡。 */
+.brand span {
+  font-family: 'Ma Shan Zheng', var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: .1em;
+}
 /* 羽毛标记：单文件深墨版，深色模式靠 filter 反相，不用维护两份 */
 .brand-mark {
   height: 21px;
@@ -199,6 +207,8 @@ a:hover { opacity: .75; }
 .prose > * { margin: 20px 0 0; }
 .prose > :first-child { margin-top: 0; }
 .prose p { font-size: 16.5px; line-height: 1.9; text-wrap: pretty; }
+/* 文章里有不少长链接，不允许它们撑破版心 */
+.prose { overflow-wrap: break-word; }
 .prose h2 { margin-top: 38px; font-size: 22px; font-weight: 700; line-height: 1.5; }
 
 /* 历史文章用到了 h1、h3-h5、列表、表格、hr、<font> 等元素，原型那 8 篇
@@ -508,5 +518,21 @@ a:hover { opacity: .75; }
   .entry .excerpt { grid-column: 1; }
   .entry .meta { order: 3; }
   .article h1 { font-size: 27px; }
-  .pager { gap: 18px; }
+
+  /* 分页：页数多时（本站 10 页）一行排不下，
+     让「上一页/下一页」占第一行，数字换到第二行居中 */
+  .pager {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px 12px;
+    letter-spacing: .16em;
+  }
+  .pager .rule { display: none; }
+  .pager .nums {
+    order: 3;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 15px;
+  }
 }

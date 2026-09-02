@@ -70,3 +70,24 @@ src/
 把 `astro.config.mjs` 里的 `site` 改成真实域名，否则 canonical、sitemap、RSS 里的绝对链接都是 `example.com`。
 
 构建产物是纯静态文件，Vercel / Cloudflare Pages / Netlify 直接托管 `dist/` 即可。
+
+## 部署
+
+站点是纯静态的（构建产物里没有任何独立 JS 文件，脚本内联在 HTML 里），
+任何能发静态文件的服务器都能托管，不需要 Node 运行时。
+
+```bash
+pnpm build          # 产物在 dist/
+```
+
+把 `dist/` 里的内容传到服务器根目录即可。OpenResty / nginx 的配置片段见
+[deploy/openresty.conf](deploy/openresty.conf)，涵盖干净 URL、缓存策略、
+gzip 和 404 页。
+
+**上传时注意**：站内有中文路径（如 `/posts/令牌桶的java实现`），
+用 `rsync` 或 `tar` 传输以保留 UTF-8 文件名；用 zip 跨平台解压容易
+把中文名弄成乱码，那些文章会 404。
+
+```bash
+rsync -avz --delete dist/ user@host:/path/to/site/
+```

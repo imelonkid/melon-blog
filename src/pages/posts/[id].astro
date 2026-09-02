@@ -31,5 +31,12 @@ const { Content } = await render(post.entry);
     <div class="prose">
       <Content />
     </div>
+
+    <footer class="post-end">
+      <div class="post-end-label">写信 <span>WRITE BACK</span></div>
+      <p>
+        如果这篇恰好对你有用，或者你只是想说点什么——<a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </p>
+    </footer>
   </article>
 </Base>

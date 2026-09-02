@@ -395,6 +395,45 @@ a:hover { opacity: .75; }
   text-align: center;
 }
 
+/* ── 文末的写信一行 ── */
+.post-end {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.post-end-label {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.post-end-label span {
+  margin-left: 9px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: .18em;
+  color: var(--sub);
+  text-transform: uppercase;
+}
+.post-end p {
+  margin: 10px 0 0;
+  font-size: 14.5px;
+  line-height: 1.95;
+  color: var(--sub);
+  text-wrap: pretty;
+}
+.post-end a {
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 13.5px;
+  letter-spacing: .01em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--line-strong);
+}
+.post-end a:hover { text-decoration-color: var(--ink); opacity: 1; }
+
 /* ── 404 ── */
 .recent { margin-top: 52px; padding-top: 26px; border-top: 1px solid var(--line); }
 .recent-label {

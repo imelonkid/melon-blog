@@ -29,6 +29,26 @@ const fullTitle = title ? `${title} · ${SITE.title}` : SITE.title;
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Noto+Serif+SC:wght@400;600;700&display=swap"
     />
+
+    <!-- 图片加载失败时换成占位块，避免浏览器那个破图标。
+         CSS 没有「加载失败」选择器，只能靠 JS；error 事件不冒泡，
+         所以在 window 上用捕获阶段监听。 -->
+    <script is:inline>
+      document.addEventListener(
+        'error',
+        function (e) {
+          var img = e.target;
+          if (!img || img.tagName !== 'IMG' || img.dataset.fallback) return;
+          img.dataset.fallback = '1';
+          var alt = (img.getAttribute('alt') || '').trim();
+          var box = document.createElement('div');
+          box.className = 'img-missing';
+          box.textContent = alt && alt.toLowerCase() !== 'image' ? alt : '图片已失效';
+          img.replaceWith(box);
+        },
+        true,
+      );
+    </script>
   </head>
   <body>
     <div class="shell">

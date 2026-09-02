@@ -6,7 +6,7 @@ categories: jekyll update
 ---
 
 
-##准备工作 
+## 准备工作 
 1. 申请git账号，新建一个git仓库，仓库的名称命名格式为：
 账号名称.github.io
 比如，我的账号是xinyuan6009，那么我的仓库名称为：

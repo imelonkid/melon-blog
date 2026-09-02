@@ -175,6 +175,15 @@ a:hover { opacity: .75; }
 }
 .pager .num[aria-current='page'] { color: var(--ink); }
 .pager .num .dot { width: 4px; height: 4px; border-radius: 50%; background: transparent; }
+/* 省略号占位：和数字同高，但不可点、不带圆点 */
+.pager .gap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  letter-spacing: 0;
+}
 .pager .num[aria-current='page'] .dot { background: var(--ink); }
 
 /* ── 文章页 ── */

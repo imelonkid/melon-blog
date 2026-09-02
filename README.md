@@ -91,3 +91,45 @@ gzip 和 404 页。
 ```bash
 rsync -avz --delete dist/ user@host:/path/to/site/
 ```
+
+## 在 Obsidian 里写，一条命令发布
+
+文章写在 Obsidian vault 的 `melonkid/写点东西/` 目录下，通过同步脚本
+搬运到 `src/content/posts/`。Astro 只读自己的目录，不直接访问 vault。
+
+新建文章：在该目录下新建笔记 →
+`Cmd+P` → `Templates: Insert template` → 选「博客文章」，得到：
+
+```markdown
+---
+title:
+date: 2026-09-02
+tag: 随笔          # 随笔 / 技术 / 读书 / 杂谈
+publish: false     # 改成 true 才会被发布
+slug:              # 网址用，留空则用文件名
+excerpt:           # 留空则自动取正文首段
+---
+```
+
+写完把 `publish` 改成 `true`，然后：
+
+```bash
+blog-deploy        # = 同步 + 构建 + 上传
+```
+
+只想同步不发布：`pnpm run sync`。
+
+**同步规则**
+
+- 只搬运 `publish: true` 的笔记，同目录下的草稿不受影响
+- 之前发过、现在把 `publish` 改回 `false` 的，会从博客上撤下
+- `.obsidian-sync.json` 记录了脚本管理的文件，不要手改
+
+**Obsidian 专有语法的处理**（否则会原样漏到网页上）
+
+| 写法 | 结果 |
+|---|---|
+| `![[图片.png]]` | 自动在 vault 里找到附件，复制到 `public/images/notes/`，转成标准 markdown |
+| `[[双链]]`、`[[双链\|别名]]` | 博客上无处可跳，退化成纯文本 |
+| `> [!note] 标题` | 转成普通引用（Astro 不认 callout） |
+| `%%批注%%` | 删除 |

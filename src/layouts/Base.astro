@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import { SITE } from '../consts';
 
@@ -37,11 +38,14 @@ const thisYear = new Date().getFullYear();
     <meta property="og:locale" content="zh_CN" />
     <meta name="twitter:card" content="summary" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <ClientRouter />
+
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+      rel="preload"
+      href="/fonts/brand-mashanzheng.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
 
     <!-- 图片加载失败时换成占位块，避免浏览器那个破图标。

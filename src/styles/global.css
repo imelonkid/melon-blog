@@ -6,8 +6,13 @@
   --line: #e8e6e1;
   --line-strong: #d6d2ca;
   --muted: #d5d2cb;
-  --serif: 'Noto Serif SC', serif;
-  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* 中文正文一律用系统字体：国内无需下载任何字体文件，首屏即成形，
+     也不会出现网络字体到达后重排。Mac 命中 Songti SC，Windows 命中
+     SimSun，Linux 命中思源宋体；西文优先 Georgia，按字符逐个回退。 */
+  --serif: Georgia, 'Times New Roman', 'Songti SC', STSong, SimSun,
+    'Noto Serif CJK SC', 'Source Han Serif SC', serif;
+  --mono: 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono',
+    'Noto Sans Mono CJK SC', monospace;
 }
 
 :root[data-theme='dark'] {
@@ -28,6 +33,15 @@
   --line-strong: #45423d;
     --muted: #44423d;
   }
+}
+
+/* 站名专用：毛笔楷仅子集了「纸上得来」四个字，2.1KB，与站点同源 */
+@font-face {
+  font-family: 'Brand Kai';
+  src: url('/fonts/brand-mashanzheng.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+7EB8, U+4E0A, U+5F97, U+6765;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +87,7 @@ a:hover { opacity: .75; }
 /* 站名用毛笔楷书，和羽毛笔标记是同一套语汇。
    楷书字面比宋体小、笔画有提按，所以字号调大、字距收紧一点才平衡。 */
 .brand span {
-  font-family: 'Ma Shan Zheng', var(--serif);
+  font-family: 'Brand Kai', var(--serif);
   font-size: 22px;
   font-weight: 400;
   letter-spacing: .1em;

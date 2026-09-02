@@ -12,6 +12,8 @@ interface Props {
 const { title, description = SITE.intro, section = 'writing' } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.title}` : SITE.title;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+// 版权年份的末年在构建时取当前年，不会随时间过期
+const thisYear = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -85,7 +87,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
       <slot />
 
       <footer class="footer">
-        <span>© {SITE.since} {SITE.title}</span>
+        <span>© {SITE.since}–{thisYear} {SITE.title}</span>
+        <a
+          class="icp"
+          href="https://beian.miit.gov.cn/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{SITE.icp}</a>
         <span>{SITE.motto}</span>
       </footer>
     </div>

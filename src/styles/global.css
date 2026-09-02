@@ -267,6 +267,54 @@ a:hover { opacity: .75; }
   background: transparent !important;
 }
 
+/* ── 长代码块：截断 + 渐隐 + 展开全部 ──
+   只有超过 30 行的块会带 .is-long（全站 143 个里 14 个）。
+   展开靠原生 <details> + :has()，不需要 JS。 */
+.prose figure.code .code-body { position: relative; }
+.prose .code-expand { display: none; }
+
+@supports selector(:has(*)) {
+  .prose figure.code.is-long .code-body {
+    max-height: 400px;
+    overflow: hidden;
+  }
+  .prose figure.code.is-long .code-body::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 96px;
+    background: linear-gradient(to bottom, transparent, var(--bg));
+    pointer-events: none;
+  }
+  /* 展开后取消截断和渐隐 */
+  .prose figure.code.is-long:has(.code-expand[open]) .code-body {
+    max-height: none;
+    overflow: visible;
+  }
+  .prose figure.code.is-long:has(.code-expand[open]) .code-body::after { display: none; }
+
+  .prose figure.code.is-long .code-expand {
+    display: block;
+    border-top: 1px solid var(--line);
+  }
+  .prose .code-expand summary {
+    padding: 9px 16px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: .1em;
+    color: var(--sub);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+  .prose .code-expand summary::-webkit-details-marker { display: none; }
+  .prose .code-expand summary:hover { color: var(--ink); }
+  .prose .code-expand summary::after { content: '▾  展开全部 · ' attr(data-lines) ' 行'; }
+  .prose .code-expand[open] summary::after { content: '▴  收起'; }
+}
+
 /* Shiki 双主题：跟随站点明暗，背景交给外框 */
 .astro-code, .astro-code span { color: var(--shiki-light); }
 @media (prefers-color-scheme: dark) {

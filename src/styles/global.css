@@ -153,6 +153,8 @@ a:hover { opacity: .75; }
 
 /* ── 分页 ── */
 .pager {
+  /* 作为翻页锚点：留出上边距，避免正好贴着视口顶端 */
+  scroll-margin-top: 28px;
   border-top: 1px solid var(--line);
   padding-top: 40px;
   display: flex;

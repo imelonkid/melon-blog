@@ -14,7 +14,10 @@ function cn(n: number): string {
   return (t > 1 ? DIGITS[t] : '') + '十' + (o ? DIGITS[o] : '');
 }
 
-const href = (n: number) => (n === 1 ? '/' : `/${n}`);
+// 翻页后停在分页条而不是跳回页首。锚点是纯 HTML 行为，不需要 JS。
+const HASH = '#pager';
+const href = (n: number) => (n === 1 ? '/' : `/${n}`) + HASH;
+const step = (u: URL | string | undefined) => (u ? u + HASH : '#');
 
 /**
  * 恒定显示三个页码：正常是「前一页 当前页 后一页」；
@@ -31,13 +34,13 @@ const items = windowOf(page.currentPage, page.lastPage);
 ---
 
 {page.lastPage > 1 && (
-  <nav class="pager" aria-label="分页">
-    <a class:list={['step', { off: !page.url.prev }]} href={page.url.prev ?? '#'} aria-disabled={!page.url.prev}>上一页</a>
+  <nav class="pager" id="pager" aria-label="分页">
+    <a class:list={['step', { off: !page.url.prev }]} href={step(page.url.prev)} aria-disabled={!page.url.prev}>上一页</a>
     <div class="nums">
       {items.map((n) => (
         <a class="num" href={href(n)} aria-current={n === page.currentPage ? 'page' : undefined}>{cn(n)}</a>
       ))}
     </div>
-    <a class:list={['step', { off: !page.url.next }]} href={page.url.next ?? '#'} aria-disabled={!page.url.next}>下一页</a>
+    <a class:list={['step', { off: !page.url.next }]} href={step(page.url.next)} aria-disabled={!page.url.next}>下一页</a>
   </nav>
 )}

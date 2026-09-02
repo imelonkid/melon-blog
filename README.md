@@ -133,3 +133,23 @@ blog-deploy        # = 同步 + 构建 + 上传
 | `[[双链]]`、`[[双链\|别名]]` | 博客上无处可跳，退化成纯文本 |
 | `> [!note] 标题` | 转成普通引用（Astro 不认 callout） |
 | `%%批注%%` | 删除 |
+
+## 发布前审阅文章
+
+```
+/article-review
+```
+
+审阅 `写点东西/` 下的草稿：错别字、语病、文笔与风格、frontmatter 完整性。
+只给建议，不直接改文件。
+
+**增量的**——按正文 SHA-1 比对，已审过且没改动的自动跳过：
+
+```bash
+pnpm run review:scan            # 看哪些待审
+pnpm run review:scan --status   # 看每篇的状态和上次审阅日期
+pnpm run review:scan --all      # 忽略记录，全部重审
+```
+
+记录存在 `.article-review.json`。只改 frontmatter（比如把 `publish` 改成
+`true`）不会触发重审，只有正文变了才算。

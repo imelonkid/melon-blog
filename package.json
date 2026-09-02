@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "sync": "node scripts/sync-obsidian.mjs"
+    "sync": "node scripts/sync-obsidian.mjs",
+    "review:scan": "node scripts/review-scan.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",

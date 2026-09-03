@@ -23,6 +23,9 @@ const { Content } = await render(post.entry);
 ---
 
 <Base title={post.title} description={post.excerpt}>
+  {/* 阅读进度：只在文章页出现，列表页不需要 */}
+  <div class="progress" aria-hidden="true"></div>
+
   <article class="article">
     <a class="back" href={backHref}>← BACK</a>
     <div class="stamp">{formatDate(post.date)} · {post.tag} · {post.mins} MIN READ</div>

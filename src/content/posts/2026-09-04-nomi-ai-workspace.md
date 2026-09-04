@@ -41,26 +41,22 @@ Nomi 是我做的一个面向企业员工的 AI 工作台，试图解决的就�
 
 <figure class="diagram">
 <svg viewBox="0 0 640 186" role="img" aria-label="三档风险对应三种放行策略：读操作直接执行，写操作需要确认，外发与删除始终确认">
-  <g font-family="var(--mono)" font-size="12">
-    <rect x="0" y="14" width="3" height="34" fill="var(--sub)" opacity=".5"/>
-    <text x="18" y="30" fill="var(--ink)" font-size="15" font-family="var(--serif)">读</text>
-    <text x="18" y="47" fill="var(--sub)">查询 · 搜索 · 读取</text>
-    <text x="430" y="36" fill="var(--sub)">直接执行</text>
-
-    <line x1="0" y1="68" x2="640" y2="68" stroke="var(--line)" stroke-width="1"/>
-
-    <rect x="0" y="82" width="3" height="34" fill="var(--sub)"/>
-    <text x="18" y="98" fill="var(--ink)" font-size="15" font-family="var(--serif)">写</text>
-    <text x="18" y="115" fill="var(--sub)">建工单 · 改日程 · 写文件</text>
-    <text x="430" y="104" fill="var(--ink)">需要确认</text>
-
-    <line x1="0" y1="136" x2="640" y2="136" stroke="var(--line)" stroke-width="1"/>
-
-    <rect x="0" y="150" width="3" height="34" fill="var(--ink)"/>
-    <text x="18" y="166" fill="var(--ink)" font-size="15" font-family="var(--serif)">外发 / 删除</text>
-    <text x="180" y="166" fill="var(--sub)">发消息 · 发邮件 · 删数据</text>
-    <text x="430" y="166" fill="var(--ink)" font-weight="600">始终确认</text>
-  </g>
+<g font-family="var(--mono)" font-size="12">
+<rect x="0" y="14" width="3" height="34" fill="var(--sub)" opacity=".5"/>
+<text x="18" y="30" fill="var(--ink)" font-size="15" font-family="var(--serif)">读</text>
+<text x="18" y="47" fill="var(--sub)">查询 · 搜索 · 读取</text>
+<text x="430" y="36" fill="var(--sub)">直接执行</text>
+<line x1="0" y1="68" x2="640" y2="68" stroke="var(--line)" stroke-width="1"/>
+<rect x="0" y="82" width="3" height="34" fill="var(--sub)"/>
+<text x="18" y="98" fill="var(--ink)" font-size="15" font-family="var(--serif)">写</text>
+<text x="18" y="115" fill="var(--sub)">建工单 · 改日程 · 写文件</text>
+<text x="430" y="104" fill="var(--ink)">需要确认</text>
+<line x1="0" y1="136" x2="640" y2="136" stroke="var(--line)" stroke-width="1"/>
+<rect x="0" y="150" width="3" height="34" fill="var(--ink)"/>
+<text x="18" y="166" fill="var(--ink)" font-size="15" font-family="var(--serif)">外发 / 删除</text>
+<text x="180" y="166" fill="var(--sub)">发消息 · 发邮件 · 删数据</text>
+<text x="430" y="166" fill="var(--ink)" font-weight="600">始终确认</text>
+</g>
 </svg>
 <figcaption>越往下越不可逆，确认的门槛也越高</figcaption>
 </figure>
@@ -85,29 +81,23 @@ Agent 最典型的失败不是做错事，是**停不下来**。搜一次没找�
 
 <figure class="diagram">
 <svg viewBox="0 0 640 178" role="img" aria-label="工具逐层收窄：从全部工具，经领域路由与意图解析，最终只把少数几个交给模型">
-  <g font-family="var(--mono)" font-size="11.5">
-    <rect x="0" y="10" width="640" height="26" fill="var(--line)"/>
-    <text x="12" y="27" fill="var(--ink)">全部工具</text>
-    <text x="576" y="27" fill="var(--sub)">数十个</text>
-
-    <path d="M310 40 l6 8 h-12 z" fill="var(--sub)"/>
-    <text x="330" y="53" fill="var(--sub)">按关键词与上下文判断领域</text>
-
-    <rect x="96" y="60" width="448" height="26" fill="var(--line)"/>
-    <text x="108" y="77" fill="var(--ink)">领域内的工具</text>
-    <text x="470" y="77" fill="var(--sub)">通用 / 工作区 / 办公</text>
-
-    <path d="M310 90 l6 8 h-12 z" fill="var(--sub)"/>
-    <text x="330" y="103" fill="var(--sub)">让模型解析一次意图</text>
-
-    <rect x="192" y="110" width="256" height="26" fill="var(--line)"/>
-    <text x="204" y="127" fill="var(--ink)">候选能力</text>
-
-    <path d="M310 140 l6 8 h-12 z" fill="var(--sub)"/>
-
-    <rect x="256" y="150" width="128" height="26" fill="var(--ink)"/>
-    <text x="268" y="167" fill="var(--bg)">交给模型</text>
-  </g>
+<g font-family="var(--mono)" font-size="11.5">
+<rect x="0" y="10" width="640" height="26" fill="var(--line)"/>
+<text x="12" y="27" fill="var(--ink)">全部工具</text>
+<text x="576" y="27" fill="var(--sub)">数十个</text>
+<path d="M310 40 l6 8 h-12 z" fill="var(--sub)"/>
+<text x="330" y="53" fill="var(--sub)">按关键词与上下文判断领域</text>
+<rect x="96" y="60" width="448" height="26" fill="var(--line)"/>
+<text x="108" y="77" fill="var(--ink)">领域内的工具</text>
+<text x="452" y="77" fill="var(--sub)">通用 / 工作区 / 办公</text>
+<path d="M310 90 l6 8 h-12 z" fill="var(--sub)"/>
+<text x="330" y="103" fill="var(--sub)">让模型解析一次意图</text>
+<rect x="192" y="110" width="256" height="26" fill="var(--line)"/>
+<text x="204" y="127" fill="var(--ink)">候选能力</text>
+<path d="M310 140 l6 8 h-12 z" fill="var(--sub)"/>
+<rect x="256" y="150" width="128" height="26" fill="var(--ink)"/>
+<text x="268" y="167" fill="var(--bg)">交给模型</text>
+</g>
 </svg>
 <figcaption>从「全都给它」到「只给这几个」</figcaption>
 </figure>

@@ -33,7 +33,17 @@ function listFiles() {
     console.error(`目录不存在：${SRC_DIR}`);
     process.exit(1);
   }
-  return fs.readdirSync(SRC_DIR).filter((f) => f.endsWith('.md')).sort();
+  const walk = (dir, prefix = '') => {
+    const out = [];
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (e.name.startsWith('.')) continue;
+      const rel = prefix ? path.join(prefix, e.name) : e.name;
+      if (e.isDirectory()) out.push(...walk(path.join(dir, e.name), rel));
+      else if (e.name.endsWith('.md')) out.push(rel);
+    }
+    return out;
+  };
+  return walk(SRC_DIR).sort();
 }
 
 const args = process.argv.slice(2);
@@ -42,7 +52,7 @@ const state = loadState();
 if (args[0] === '--mark') {
   const marked = [];
   for (const name of args.slice(1)) {
-    const file = path.basename(name);
+    const file = name;
     const full = path.join(SRC_DIR, file);
     if (!fs.existsSync(full)) { console.error(`  找不到 ${file}`); continue; }
     state[file] = { hash: bodyHash(fs.readFileSync(full, 'utf8')), reviewedAt: new Date().toISOString().slice(0, 10) };

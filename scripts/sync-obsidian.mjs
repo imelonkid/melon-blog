@@ -92,6 +92,18 @@ function transform(body, slug, warn) {
   return out.trim() + '\n';
 }
 
+/** 递归列出所有 .md（相对 SRC_DIR 的路径），子目录里的文章也要能同步 */
+function listMarkdown(dir, prefix = '') {
+  const out = [];
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (e.name.startsWith('.')) continue;
+    const rel = prefix ? path.join(prefix, e.name) : e.name;
+    if (e.isDirectory()) out.push(...listMarkdown(path.join(dir, e.name), rel));
+    else if (e.name.endsWith('.md')) out.push(rel);
+  }
+  return out.sort();
+}
+
 function run() {
   if (!fs.existsSync(SRC_DIR)) { console.error(`目录不存在：${SRC_DIR}`); process.exit(1); }
 
@@ -100,7 +112,7 @@ function run() {
   const warnings = [];
   let skipped = 0;
 
-  for (const file of fs.readdirSync(SRC_DIR).filter((f) => f.endsWith('.md'))) {
+  for (const file of listMarkdown(SRC_DIR)) {
     const text = fs.readFileSync(path.join(SRC_DIR, file), 'utf8');
     const { data, body } = parseFrontmatter(text);
 

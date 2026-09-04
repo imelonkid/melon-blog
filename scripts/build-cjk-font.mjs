@@ -1,6 +1,11 @@
 /**
  * 生成自托管的思源宋体（Noto Serif SC）分片。
  *
+ * ⚠️ 当前站点未启用——正文用系统字体，见 global.css 里 --serif 的说明。
+ * 保留此脚本是因为重新生成需要两个不显然的前提：Google Fonts 只对完整的
+ * 现代浏览器 UA 返回分片版 woff2，以及静态实例比可变字体小一半。
+ * 哪天要换成统一字形，跑一遍这个脚本再在 Base.astro 里 link 上即可。
+ *
  *   node scripts/build-cjk-font.mjs
  *
  * 中文字体整体是 MB 级，一次性下发不现实。这里按 unicode-range 切成上百个

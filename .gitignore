@@ -3,5 +3,3 @@ dist/
 .astro/
 .DS_Store
 
-# 字体分片体积大且可复现，由 scripts/build-cjk-font.mjs 生成
-public/fonts/noto-serif-sc/

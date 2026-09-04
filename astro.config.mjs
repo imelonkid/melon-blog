@@ -29,8 +29,10 @@ export default defineConfig({
         ],
       ],
       rehypePlugins: [
-        // 构建期把公式渲染成 SVG。相比 KaTeX 不需要引入 CSS 和数学字体，
-        // 与站点"零外部字体"的取向一致
+        // 构建期把公式渲染成内联 SVG。选 MathJax 而非 KaTeX 的理由是
+        // 少一套要管的资源：KaTeX 需要额外托管 CSS 和数学字体文件。
+        // 两者都能自托管、都对国内访问友好，公式量大时 KaTeX 的
+        // 页面体积和排版更优——真写多了可以换。
         rehypeMathjax,
         rehypeCodeFigure,
       ],

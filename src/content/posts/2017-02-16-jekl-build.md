@@ -2,7 +2,7 @@
 layout: post
 title:  "使用github+jeklly搭建博客过程记录"
 date:   2017-02-16 17:29:57 +0800
-categories: jekyll update
+tag: 博客
 ---
 
 

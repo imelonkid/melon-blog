@@ -26,8 +26,6 @@ export const TAGS = [
   '算法', '数据结构', 'leetcode',
   // 技术 · 其他
   '证书', '扩展点', 'UML', 'github',
-  // 待清理：来自 Jekyll 脚手架的 categories 默认值，7 篇文章还挂着
-  'jekyll',
 ] as const;
 
 export type Tag = (typeof TAGS)[number];

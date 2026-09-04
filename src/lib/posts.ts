@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { checkTag } from '../tags';
 
 type Entry = CollectionEntry<'posts'>;
 
@@ -59,6 +60,11 @@ function normalize(entry: Entry): Post {
   const body = entry.body ?? '';
   const d = entry.data;
   const tag = d.tag ?? toList(d.tags)[0] ?? toList(d.categories)[0] ?? '未分类';
+  // 硬卡控：标签不合规直接让构建失败，发不出去。
+  // 放在这里而不是 zod schema，是因为标签可能来自 tag / tags / categories
+  // 三个字段中的任意一个，这里校验的是最终真正显示的那个。
+  const tagError = checkTag(tag);
+  if (tagError) throw new Error(`[${entry.id}] ${tagError}`);
   return {
     id: entry.id,
     body,

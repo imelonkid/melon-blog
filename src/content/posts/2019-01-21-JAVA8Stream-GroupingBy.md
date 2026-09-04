@@ -2,7 +2,7 @@
 layout: post
 title:  "JAVA8-GroupingBy"
 date:   2019-01-21 11:18:00 +0800
-categories: [基础]
+categories: [技术]
 ---
 
 > if we want to group a list with key. we can use new JAVA8 API->groupyingBy。this api provides opretor which can group a list like SQL(select ... form... where... group by)  

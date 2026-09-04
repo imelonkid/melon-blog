@@ -21,6 +21,18 @@ const MANIFEST = path.join(ROOT, '.obsidian-sync.json');
 
 const log = (...a) => console.log(' ', ...a);
 
+/** 标签校验。白名单从 src/tags.ts 读，避免两处维护 */
+const TAG_SRC = fs.readFileSync(path.join(ROOT, 'src/tags.ts'), 'utf8');
+const ALLOWED = [...TAG_SRC.matchAll(/'([^']+)',/g)].map((m) => m[1]);
+const tagWidth = (t) => [...t].reduce((n, c) => n + (/[一-鿿]/.test(c) ? 2 : 1), 0);
+function checkTagLocal(tag) {
+  const w = tagWidth(tag);
+  if (w > 8) return `标签「${tag}」宽度 ${w} 超过上限 8（汉字算 2，最多 4 个汉字），未同步`;
+  if (!ALLOWED.includes(tag))
+    return `标签「${tag}」不在白名单，未同步。先确认现有标签能否覆盖；确实要新增就改 src/tags.ts。现有：${ALLOWED.join('、')}`;
+  return null;
+}
+
 /** 极简 frontmatter 解析：够用即可，不引依赖 */
 function parseFrontmatter(text) {
   const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -128,6 +140,10 @@ function run() {
     const slug = data.slug || name;
     const tags = Array.isArray(data.tags) ? data.tags : data.tags ? [data.tags] : [];
     const tag = data.tag || tags[0] || '随笔';
+    // 标签卡控前移到同步阶段：在这里报错，用户改完再构建，
+    // 比等 astro build 失败少一轮往返
+    const tagError = checkTagLocal(tag);
+    if (tagError) { warnings.push(`${file}：${tagError}`); continue; }
 
     const warn = (m) => warnings.push(`${file}：${m}`);
     const out = [

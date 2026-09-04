@@ -1,7 +1,7 @@
 ---
 title: Mac使用Docker搭建MYSQL开发环境
 date: 2022-12-09 09:05:31
-tags: [Mac,Docker]
+tags: [mac,Docker]
 ---
 
 ### 下载安装

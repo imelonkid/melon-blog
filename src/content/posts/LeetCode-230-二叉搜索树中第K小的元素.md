@@ -1,7 +1,7 @@
 ---
 title: LeetCode_230_二叉搜索树中第K小的元素
 date: 2021-10-18 15:11:20
-tags: [leetCode, 算法, 二叉树, 搜索树]
+tags: [leetcode, 算法, 二叉树, 搜索树]
 ---
 
 ## 题目

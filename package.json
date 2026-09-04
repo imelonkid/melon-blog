@@ -19,6 +19,9 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.2.10",
+    "mermaid-isomorphic": "^3.1.0",
+    "rehype-mathjax": "^7.1.0",
+    "remark-math": "^6.0.0",
     "unist-util-visit": "^5.1.0",
     "zod": "^4.5.4"
   },
@@ -29,6 +32,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "playwright": "^1.62.1",
     "tsx": "^4.23.13",
     "typescript": "^6.0.3"
   }

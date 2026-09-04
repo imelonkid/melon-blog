@@ -451,6 +451,44 @@ a:hover { opacity: .75; }
   text-align: center;
 }
 
+/* ── mermaid 图 ──
+   mermaid 会把配色烘焙进 SVG（它不接受 CSS 变量，传 var() 会直接报错），
+   默认主题在暗色页面上是一块刺眼的浅色卡片。这里把它的配色整体覆盖掉，
+   只保留它算好的布局——这样图能跟着站点明暗主题走。
+   需要 !important：mermaid 内联的 <style> 用了 #mermaid-N 这种 id 选择器。 */
+.prose figure.mermaid svg { max-width: 100%; height: auto; }
+.prose figure.mermaid .node rect,
+.prose figure.mermaid .node polygon,
+.prose figure.mermaid .node circle,
+.prose figure.mermaid .label-container {
+  fill: transparent !important;
+  stroke: var(--sub) !important;
+  stroke-width: 1px !important;
+}
+.prose figure.mermaid .nodeLabel,
+.prose figure.mermaid .edgeLabel,
+.prose figure.mermaid .label,
+.prose figure.mermaid foreignObject div,
+.prose figure.mermaid foreignObject span,
+.prose figure.mermaid foreignObject p {
+  color: var(--ink) !important;
+  fill: var(--ink) !important;
+  background: transparent !important;
+  font-family: var(--serif) !important;
+}
+.prose figure.mermaid .edgeLabel,
+.prose figure.mermaid .edgeLabel foreignObject div {
+  color: var(--sub) !important;
+  fill: var(--sub) !important;
+}
+/* 连线标签的底色要盖住穿过它的线，只能用实色 */
+.prose figure.mermaid .labelBkg,
+.prose figure.mermaid .edgeLabel rect { fill: var(--bg) !important; background: var(--bg) !important; }
+.prose figure.mermaid .edgePath path,
+.prose figure.mermaid .flowchart-link { stroke: var(--sub) !important; }
+.prose figure.mermaid .arrowMarkerPath,
+.prose figure.mermaid marker path { fill: var(--sub) !important; stroke: var(--sub) !important; }
+
 /* ── 阅读进度条 ──
    用 CSS 滚动驱动动画实现，零 JS：动画进度直接绑定到根滚动容器的
    滚动位置，跑在合成器线程上，不会因为主线程繁忙而卡顿。

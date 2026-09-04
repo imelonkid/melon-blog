@@ -153,3 +153,36 @@ pnpm run review:scan --all      # 忽略记录，全部重审
 
 记录存在 `.article-review.json`。只改 frontmatter（比如把 `publish` 改成
 `true`）不会触发重审，只有正文变了才算。
+
+## 公式与图表
+
+**数学公式**（构建期渲染成 SVG，读者侧零 JS、无字体依赖）：
+
+```markdown
+$$
+T(n) = 2T(n/2) + O(n) \implies T(n) = O(n \log n)
+$$
+```
+
+只支持 `$$…$$` 块级，**不支持 `$…$` 行内**——站里有文章写着
+`$JAVA_HOME/bin:$PATH` 这类 shell 变量，开了行内会把它们当公式解析。
+
+**流程图**（同样构建期渲染成 SVG）：
+
+````markdown
+```mermaid
+flowchart LR
+  A[开始] --> B{判断}
+  B -->|是| C[执行]
+```
+````
+
+配色由 `global.css` 里的 `.prose figure.mermaid` 覆盖，跟随明暗主题。
+渲染依赖 Playwright 的无头 Chromium，首次需要：
+
+```bash
+pnpm exec playwright install chromium-headless-shell
+```
+
+图画错了会让构建失败并指出是第几张，不会静默发一个空白出去。
+构建时间因此从 0.4 秒增加到约 3 秒。

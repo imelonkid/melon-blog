@@ -9,8 +9,10 @@
   /* 中文正文一律用系统字体：国内无需下载任何字体文件，首屏即成形，
      也不会出现网络字体到达后重排。Mac 命中 Songti SC，Windows 命中
      SimSun，Linux 命中思源宋体；西文优先 Georgia，按字符逐个回退。 */
-  --serif: Georgia, 'Times New Roman', 'Songti SC', STSong, SimSun,
-    'Noto Serif CJK SC', 'Source Han Serif SC', serif;
+  /* 中文用自托管的思源宋体，保证各系统字形一致；系统宋体作为
+     字体到达前的回退，两者都是宋体，替换时不会有明显跳变 */
+  --serif: Georgia, 'Times New Roman', 'Noto Serif SC', 'Songti SC',
+    STSong, SimSun, 'Source Han Serif SC', serif;
   --mono: 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono',
     'Noto Sans Mono CJK SC', monospace;
 }
@@ -81,7 +83,7 @@ a:hover { opacity: .75; }
   align-items: center;
   gap: 9px;
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: .18em;
 }
 /* 站名用毛笔楷书，和羽毛笔标记是同一套语汇。
@@ -122,7 +124,7 @@ a:hover { opacity: .75; }
   justify-content: space-between;
   gap: 20px;
 }
-.intro p { margin: 0; font-size: 22px; font-weight: 600; line-height: 1.7; text-wrap: pretty; }
+.intro p { margin: 0; font-size: 22px; font-weight: 700; line-height: 1.7; text-wrap: pretty; }
 .intro .count {
   font-family: var(--mono);
   font-size: 12px;
@@ -148,7 +150,7 @@ a:hover { opacity: .75; }
   letter-spacing: .03em;
   white-space: nowrap;
 }
-.entry .title { font-size: 17.5px; font-weight: 600; line-height: 1.5; }
+.entry .title { font-size: 17.5px; font-weight: 700; line-height: 1.5; }
 .entry .meta {
   font-family: var(--mono);
   font-size: 11.5px;
@@ -541,7 +543,7 @@ a:hover { opacity: .75; }
 }
 .post-end-label {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: .04em;
 }
 .post-end-label span {
@@ -590,7 +592,7 @@ a:hover { opacity: .75; }
   font-size: 12px;
   color: var(--sub);
 }
-.recent .title { font-size: 16px; font-weight: 600; line-height: 1.5; }
+.recent .title { font-size: 16px; font-weight: 700; line-height: 1.5; }
 
 @media (max-width: 640px) {
   .recent li a { flex-direction: column; gap: 2px; }

@@ -40,6 +40,15 @@ const thisYear = new Date().getFullYear();
 
     <ClientRouter />
 
+    <!-- 按需注入的样式，例如只有含公式的文章才引入 KaTeX -->
+    <slot name="head" />
+
+    <!-- 思源宋体：自托管，按 unicode-range 切成 101 片，浏览器只下载当前
+         页面用到的那几片。用 link 而非 CSS @import——Vite 会把 @import
+         当模块解析，public/ 下的文件解析不到会被静默丢弃。
+         生成脚本见 scripts/build-cjk-font.mjs -->
+    <link rel="stylesheet" href="/fonts/noto-serif-sc.css" />
+
     <link
       rel="preload"
       href="/fonts/brand-mashanzheng.woff2"

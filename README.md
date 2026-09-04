@@ -186,3 +186,23 @@ pnpm exec playwright install chromium-headless-shell
 
 图画错了会让构建失败并指出是第几张，不会静默发一个空白出去。
 构建时间因此从 0.4 秒增加到约 3 秒。
+
+## 字体
+
+正文中文用**自托管的思源宋体**（Noto Serif SC，SIL OFL），按 unicode-range
+切成 202 个分片（400 / 700 两档字重），浏览器只下载当前页面用到的那几片。
+文件全在自己服务器上，国内访问不受制于外部服务。
+
+分片体积大且可复现，**不进 git**。首次克隆或需要重新生成时：
+
+```bash
+curl -L -o /tmp/notoserifsc.ttf \
+  "https://github.com/google/fonts/raw/main/ofl/notoserifsc/NotoSerifSC%5Bwght%5D.ttf"
+node scripts/build-cjk-font.mjs      # 约一分钟
+```
+
+选静态双字重而非可变字体：实测同一区间可变(200-900) 227KB、可变(400-700)
+229KB、静态(400) 117KB——裁剪字重范围几乎不省（变体数据是逐字形差值），
+换静态直接减半。站点原本用到的 600 已并入 700。
+
+站名的毛笔楷（Ma Shan Zheng）只子集了「纸上得来」四个字，2.1KB。

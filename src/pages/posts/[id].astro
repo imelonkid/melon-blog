@@ -20,9 +20,14 @@ export const getStaticPaths = (async () => {
 
 const { post, backHref } = Astro.props;
 const { Content } = await render(post.entry);
+
+// KaTeX 的样式和字体有 300 多 KB，只有真的写了公式的文章才值得加载。
+// 站上 50 篇里目前只有个位数会用到。
+const hasMath = /\$\$[\s\S]*?\$\$/.test(post.body);
 ---
 
 <Base title={post.title} description={post.excerpt}>
+  {hasMath && <link rel="stylesheet" href="/katex/katex.css" slot="head" />}
   {/* 阅读进度：只在文章页出现，列表页不需要 */}
   <div class="progress" aria-hidden="true"></div>
 

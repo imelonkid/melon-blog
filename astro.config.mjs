@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import sitemap from '@astrojs/sitemap';
 import remarkMath from 'remark-math';
-import rehypeMathjax from 'rehype-mathjax';
+import rehypeKatex from 'rehype-katex';
 import remarkMermaid from './src/lib/remark-mermaid.mjs';
 import rehypeCodeFigure from './src/lib/rehype-code-figure.mjs';
 
@@ -29,11 +29,10 @@ export default defineConfig({
         ],
       ],
       rehypePlugins: [
-        // 构建期把公式渲染成内联 SVG。选 MathJax 而非 KaTeX 的理由是
-        // 少一套要管的资源：KaTeX 需要额外托管 CSS 和数学字体文件。
-        // 两者都能自托管、都对国内访问友好，公式量大时 KaTeX 的
-        // 页面体积和排版更优——真写多了可以换。
-        rehypeMathjax,
+        // 构建期把公式渲染成 HTML+CSS。样式与字体自托管在 /katex/ 下
+        // （只保留 woff2，296KB），且只有含公式的页面才引入那份 CSS，
+        // 见 posts/[id].astro 里的 hasMath 判断
+        rehypeKatex,
         rehypeCodeFigure,
       ],
     }),

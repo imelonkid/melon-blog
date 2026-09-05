@@ -6,13 +6,13 @@
   --line: #e8e6e1;
   --line-strong: #d6d2ca;
   --muted: #d5d2cb;
-  /* 中文正文一律用系统字体：国内无需下载任何字体文件，首屏即成形，
-     也不会出现网络字体到达后重排。Mac 命中 Songti SC，Windows 命中
-     SimSun，Linux 命中思源宋体；西文优先 Georgia，按字符逐个回退。 */
-  /* 正文用系统字体：中文网络字体不管谁托管都是 MB 级（实测思源宋体
-     单页要下 1.4MB），而系统里本来就有可用的宋体。零下载、首屏即成形、
-     不会有字体到达后的重排。Mac 命中 Songti SC，Windows 命中 SimSun，
-     Linux 命中思源宋体；西文优先 Georgia，字体回退是逐字符的。 */
+  /* 图表与公式的浅底。用半透明叠加而非固定色，这样明暗两套下都是
+     「比纸面略深一点」，不必各调一个值 */
+  --tint: rgba(26, 26, 26, .035);
+  /* 正文用系统字体：中文网络字体不管谁托管都是 MB 级（实测自托管思源
+     宋体单页要下 1.4MB），而系统里本来就有可用的宋体。零下载、首屏即
+     成形、不会有字体到达后的重排。Mac 命中 Songti SC，Windows 命中
+     SimSun，Linux 命中思源宋体；西文优先 Georgia，回退是逐字符的。 */
   --serif: Georgia, 'Times New Roman', 'Songti SC', STSong, SimSun,
     'Noto Serif CJK SC', 'Source Han Serif SC', serif;
   --mono: 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono',
@@ -26,6 +26,7 @@
   --line: #333330;
   --line-strong: #45423d;
   --muted: #44423d;
+  --tint: rgba(255, 255, 255, .05);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,6 +37,7 @@
     --line: #333330;
   --line-strong: #45423d;
     --muted: #44423d;
+    --tint: rgba(255, 255, 255, .05);
   }
 }
 
@@ -440,6 +442,9 @@ a:hover { opacity: .75; }
    任何分辨率下都清晰，也不用多一次网络请求。 */
 .prose figure.diagram {
   margin: 30px 0 0;
+  padding: 22px 20px 18px;
+  background: var(--tint);
+  border-radius: 6px;
 }
 .prose figure.diagram svg {
   display: block;
@@ -461,6 +466,8 @@ a:hover { opacity: .75; }
    只保留它算好的布局——这样图能跟着站点明暗主题走。
    需要 !important：mermaid 内联的 <style> 用了 #mermaid-N 这种 id 选择器。 */
 .prose figure.mermaid svg { max-width: 100%; height: auto; }
+/* mermaid 的图注在图外，内边距由 .diagram 统一给 */
+.prose figure.mermaid { display: block; }
 .prose figure.mermaid .node rect,
 .prose figure.mermaid .node polygon,
 .prose figure.mermaid .node circle,
@@ -492,6 +499,40 @@ a:hover { opacity: .75; }
 .prose figure.mermaid .flowchart-link { stroke: var(--sub) !important; }
 .prose figure.mermaid .arrowMarkerPath,
 .prose figure.mermaid marker path { fill: var(--sub) !important; stroke: var(--sub) !important; }
+
+/* 时序图：参与者方框、生命线、备注 */
+.prose figure.mermaid rect.actor,
+.prose figure.mermaid .actor-box,
+.prose figure.mermaid .note {
+  fill: transparent !important;
+  stroke: var(--sub) !important;
+}
+.prose figure.mermaid text.actor,
+.prose figure.mermaid .actor > tspan,
+.prose figure.mermaid .noteText,
+.prose figure.mermaid .noteText > tspan,
+.prose figure.mermaid .messageText,
+.prose figure.mermaid .loopText,
+.prose figure.mermaid .labelText {
+  fill: var(--ink) !important;
+  stroke: none !important;
+}
+.prose figure.mermaid .actor-line,
+.prose figure.mermaid .messageLine0,
+.prose figure.mermaid .messageLine1 { stroke: var(--sub) !important; }
+
+/* 状态图：转移线与起止圆点 */
+.prose figure.mermaid .transition,
+.prose figure.mermaid .stateGroup line { stroke: var(--sub) !important; }
+.prose figure.mermaid .stateGroup circle,
+.prose figure.mermaid .node circle.state-start { fill: var(--ink) !important; stroke: var(--ink) !important; }
+.prose figure.mermaid .node circle.state-end { fill: transparent !important; stroke: var(--ink) !important; }
+.prose figure.mermaid .statediagram-state rect,
+.prose figure.mermaid .statediagram-cluster rect { fill: transparent !important; stroke: var(--sub) !important; }
+/* 状态图的转移线和箭头 mermaid 没给类名，只能按位置兜底：
+   图体内（非 defs）的无类 path 一律走次要色 */
+.prose figure.mermaid svg > g path:not([class]) { stroke: var(--sub) !important; }
+.prose figure.mermaid marker path { fill: var(--sub) !important; stroke: none !important; }
 
 /* ── 阅读进度条 ──
    用 CSS 滚动驱动动画实现，零 JS：动画进度直接绑定到根滚动容器的

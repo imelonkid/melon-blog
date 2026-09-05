@@ -12,18 +12,18 @@ tags: [证书, HTTPS]
 ## 申请证书
 腾讯云申请地址：https://console.cloud.tencent.com/ssl
 
-<img src="/images/cert_01.png" width = "60%" height="40%" />
+<img src="/images/cert_01.png" width="1104" height="1022" />
 
 腾讯云证书分两种，收费版和免费版。其中免费版证书只能认证一个域名(包括二级域名)，每个腾讯云账号最多可以申请20个免费证书，每个证书有效期一年。到期后，需要重新申请新证书。
 由于我有两个网站，melonkid.cn和note.melonkid.cn。所以需要申请两个证书
 
 > 对于个人网站来说，直接申请免费证书即可。一来收费版非常规，对于个人网站来说，成本太高了。二来免费证书基本上可以满足需求。
 
-<img src="/images/cert_02.jpeg" width = "100%" height="60%" />
+<img src="/images/cert_02.jpeg" width="2134" height="1162" />
 
 之后进入验证环节，按照提示，去域名服务商进行CNAME解析，配置好后，回到申请页面点击网站校验。校验通过后直接提交，进入审核流程。
 一般几分钟内就能审核完毕。
-<img src="/images/cert_03.jpeg" width = "100%" height="60%" />
+<img src="/images/cert_03.jpeg" width="2756" height="790" />
 如图片所示，找到代理服务器对应的证书下载到本地。
 
 

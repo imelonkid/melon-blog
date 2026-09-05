@@ -10,7 +10,7 @@ excerpt: "一年里白天最长的一天，下班后天还亮着，临时起意�
 临时起意，没回家，坐地铁去了江边。
 
 <figure>
-  <img src="/images/summer-solstice-by-the-river-1.svg" alt="江边黄昏照片">
+  <img src="/images/summer-solstice-by-the-river-1.svg" alt="江边黄昏照片" width="720" height="340" />
   <figcaption>夏至，20:05</figcaption>
 </figure>
 

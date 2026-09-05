@@ -14,7 +14,7 @@ excerpt: "雨是傍晚来的，先是风把窗帘吹得鼓起来，然后整条�
 什么也不做地看雨，在今天之前，大概已经有半年没有过了。
 
 <figure>
-  <img src="/images/rain-at-augusts-end-2.svg" alt="窗外雨景照片">
+  <img src="/images/rain-at-augusts-end-2.svg" alt="窗外雨景照片" width="720" height="340" />
   <figcaption>窗台，19:40</figcaption>
 </figure>
 

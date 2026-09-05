@@ -71,7 +71,7 @@ git config --global user.email "imelonkid@163.com"
 ```shell
 ssh-keygen -t rsa -C "imelonkid@163.com"
 ```
-<img style="margin-left: 10px;" src="/posts/mac-git-github/git_generate_sshkey.png" width = "50%" height="60%" />
+<img style="margin-left: 10px;" src="/posts/mac-git-github/git_generate_sshkey.png" width="968" height="812" />
 
 #### 复制公钥
 ```shell
@@ -81,14 +81,14 @@ cat .ssh/id_rsa.pub
 
 1. 登录Github账号，没有自己注册一个
 2. 点击右上角头像->setting
-    <img style="margin-left: 10px;" src="/posts/mac-git-github/github_set_sshkey1.png" width = "30%" height="30%" />
+    <img style="margin-left: 10px;" src="/posts/mac-git-github/github_set_sshkey1.png" width="762" height="1038" />
 
 3. 选择SSH and GPG keys
-    <img style="margin-left: 10px;" src="/posts/mac-git-github/github-set_sshkey2.png" width = "80%" height="70%" />
+    <img style="margin-left: 10px;" src="/posts/mac-git-github/github-set_sshkey2.png" width="1200" height="620" />
 
 4. 点击New SSH Key
 标题随便，KEY就是刚刚复制的那个，保存即可
-<img style="margin-left: 10px;" src="/posts/mac-git-github/github_set_sshkey3.png" width = "50%" height="40%" />
+<img style="margin-left: 10px;" src="/posts/mac-git-github/github_set_sshkey3.png" width="1564" height="950" />
 
 
 5. 验证配置
@@ -97,7 +97,7 @@ ssh -T git@github.com
 ```
 出现如下提示，表示配置成功
 Hi xxx! You've successfully authenticated, but GitHub does not provide shell access.
-<img style="margin-left: 10px;" src="/posts/mac-git-github/github_set_sshkey4.png" width = "800%" height="100%" />
+<img style="margin-left: 10px;" src="/posts/mac-git-github/github_set_sshkey4.png" width="1272" height="124" />
 
 
 ### 将本地已有项目PUSH到github

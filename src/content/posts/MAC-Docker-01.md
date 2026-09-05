@@ -44,7 +44,7 @@ Docker有一个镜像库，里面包含了各种常用的服务，MYSQL的服务
     mysql -h localhost -u root -p
 ```
 > 注意，因为mysql是Docker进程，不是直接安装到电脑本地。所以直接在终端执行下面命令时可能会报找不到命令。这种情况可以直接在docker命令行下执行。如下图所示：
-<img src="/images/docker-mysql.jpg" width = "100%" height="60%" />
+<img src="/images/docker-mysql.jpg" width="1248" height="690" />
 
 ### 安装MYSQL客户端
 MYSQL客户端有很多，这里我使用phpmyadmin。

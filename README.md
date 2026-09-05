@@ -134,6 +134,18 @@ blog-deploy        # = 同步 + 构建 + 上传
 | `> [!note] 标题` | 转成普通引用（Astro 不认 callout） |
 | `%%批注%%` | 删除 |
 
+## 本地预览用的草稿
+
+`src/content/posts/` 下 `draft: true` 的文章**只在 `pnpm dev` 下可见**，
+不进构建产物、不上线、不进 RSS 和 sitemap。用来验证排版和渲染效果而
+不污染线上内容。
+
+`_demo-math-mermaid.md` 是常驻的渲染样例，包含公式、流程图、时序图、
+状态图，改动排版后可以拿它对照。
+
+注意它和 Obsidian 里的 `publish: false` 是两套机制：`publish` 控制
+**要不要从 Obsidian 同步过来**，`draft` 控制**同步过来后要不要构建**。
+
 ## 发布前审阅文章
 
 ```

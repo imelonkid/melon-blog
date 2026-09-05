@@ -6,6 +6,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import remarkMermaid from './src/lib/remark-mermaid.mjs';
 import rehypeCodeFigure from './src/lib/rehype-code-figure.mjs';
+import rehypeImageSize from './src/lib/rehype-image-size.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -34,6 +35,8 @@ export default defineConfig({
         // 见 posts/[id].astro 里的 hasMath 判断
         rehypeKatex,
         rehypeCodeFigure,
+        // 给本地图片补宽高，避免图片到达前后布局高度突变
+        rehypeImageSize,
       ],
     }),
     shikiConfig: {

@@ -384,7 +384,10 @@ a:hover { opacity: .75; }
    正文栏宽，统一铺满栏宽只会缩小、不会糊。 */
 .prose img {
   display: block;
-  width: auto;
+  /* 不要写 width: auto——那样浏览器在图片下载完之前不知道宽度，
+     也就无法用 width/height 属性算出的宽高比预留高度，页面会在图片
+     到达时突然变高。刷新后滚动位置对不上就是这么来的。
+     老文章里的 width="80%" 由 rehype-image-size 换成了真实像素。 */
   max-width: 100%;
   height: auto;
   max-height: 640px;         /* 竖图不至于吃掉整屏；用 px 而非 vh，

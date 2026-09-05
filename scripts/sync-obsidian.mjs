@@ -167,6 +167,8 @@ function run() {
       `title: ${JSON.stringify(title)}`,
       `date: ${date}`,
       `tag: ${JSON.stringify(tag)}`,
+      // updated 由审阅环节写入 Obsidian，这里原样透传
+      ...(data.updated ? [`updated: ${String(data.updated).slice(0, 10)}`] : []),
       ...(data.excerpt ? [`excerpt: ${JSON.stringify(data.excerpt)}`] : []),
       '---',
       '',

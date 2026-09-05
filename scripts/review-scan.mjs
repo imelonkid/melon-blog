@@ -47,6 +47,42 @@ function listFiles() {
   return walk(SRC_DIR).sort();
 }
 
+
+/**
+ * 已经上线过的文章，正文改了就把 updated 写回 Obsidian 的 frontmatter。
+ *
+ * 为什么不改 date：date 是发表日，决定首页排序和 RSS 的 pubDate。改它会让
+ * 老文章跳回首页顶部、让订阅者收到一次重复推送——等于骗读者。所以发表日
+ * 定死，实质修改单独记在 updated。
+ *
+ * 只对「已上线过」的文章生效：还没发布的草稿改来改去是常态，不算更新。
+ */
+function touchUpdated(rel, full) {
+  const manifest = path.resolve(import.meta.dirname, '../.obsidian-sync.json');
+  const text = fs.readFileSync(full, 'utf8');
+  const m = text.match(/^(---\r?\n)([\s\S]*?)(\r?\n---\r?\n)/);
+  if (!m) return null;
+  const [, open, fm, close] = m;
+
+  if (!/^publish:\s*true\s*$/m.test(fm)) return null;      // 没发布的不算更新
+
+  // 上线过吗？同步产物文件名是 <date>-<slug>.md
+  const date = (fm.match(/^date:\s*(\S+)/m) || [])[1];
+  const slug = (fm.match(/^slug:\s*(\S+)/m) || [])[1];
+  const live = fs.existsSync(manifest) ? JSON.parse(fs.readFileSync(manifest, 'utf8')) : [];
+  if (!live.some((f) => date && f.startsWith(date) && (!slug || f.includes(slug)))) return null;
+
+  const today = new Date().toISOString().slice(0, 10);
+  if (new RegExp(`^updated:\\s*${today}\\s*$`, 'm').test(fm)) return null;   // 今天已经记过
+
+  const newFm = /^updated:\s*.*$/m.test(fm)
+    ? fm.replace(/^updated:\s*.*$/m, `updated: ${today}`)
+    : fm.replace(/^(date:\s*\S+)$/m, `$1\nupdated: ${today}`);
+
+  fs.writeFileSync(full, text.replace(open + fm + close, open + newFm + close));
+  return today;
+}
+
 const args = process.argv.slice(2);
 const state = loadState();
 
@@ -56,6 +92,11 @@ if (args[0] === '--mark') {
     const file = name;
     const full = path.join(SRC_DIR, file);
     if (!fs.existsSync(full)) { console.error(`  找不到 ${file}`); continue; }
+    const changed = state[file] && state[file].hash !== bodyHash(fs.readFileSync(full, 'utf8'));
+    if (changed) {
+      const day = touchUpdated(file, full);
+      if (day) console.log(`  · ${file} 正文有改动，已在 Obsidian 里记 updated: ${day}`);
+    }
     state[file] = { hash: bodyHash(fs.readFileSync(full, 'utf8')), reviewedAt: new Date().toISOString().slice(0, 10) };
     marked.push(file);
   }

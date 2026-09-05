@@ -58,6 +58,31 @@ for (const f of posts) {
     fail.push(`${f}：裸 <img> 用了百分比宽高，会导致刷新时跳动。换成真实像素`);
 }
 
+// ---- 2.5：正文里不该出现真实主机、账号、密钥 ----
+// 只认「长得像主机」的 IP：跟在 @ 后面，或被 ssh/scp/rsync/curl/http 带着，
+// 或后面跟端口。否则 "version 1.8.0.10" 这种版本号会误报。
+const HOSTISH = /(?:@|ssh\s+|scp\s+[^\n]*?|rsync\s+[^\n]*?|ping\s+|curl\s+[^\n]*?|https?:\/\/)((?:\d{1,3}\.){3}\d{1,3})|((?:\d{1,3}\.){3}\d{1,3}):\d{2,5}\b/g;
+const PRIVATE = /^(?:127\.|0\.0\.0\.0|10\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.|255\.)/;
+
+for (const f of posts) {
+  const text = fs.readFileSync(path.join(POSTS, f), 'utf8');
+  const hits = new Set(
+    [...text.matchAll(HOSTISH)].map((m) => m[1] || m[2]).filter((ip) => ip && !PRIVATE.test(ip)),
+  );
+  for (const ip of hits)
+    fail.push(`${f}：正文里有公网主机 ${ip}。换成 $DEPLOY_HOST 之类的占位`);
+  for (const m of text.matchAll(/\b[\w.-]+\.pem\b/g))
+    fail.push(`${f}：正文里有私钥文件名 ${m[0]}`);
+}
+
+// ---- 2.6：updated 不能早于 date ----
+for (const f of posts) {
+  const t = fs.readFileSync(path.join(POSTS, f), 'utf8');
+  const d = (t.match(/^date:\s*(\S+)/m) || [])[1];
+  const u = (t.match(/^updated:\s*(\S+)/m) || [])[1];
+  if (d && u && u < d) fail.push(`${f}：updated (${u}) 早于 date (${d})`);
+}
+
 // ---- 3：审阅状态 ----
 const bodyHash = (t) => {
   const m = t.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?([\s\S]*)$/);

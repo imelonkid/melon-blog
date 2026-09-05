@@ -172,6 +172,28 @@ pnpm run review:scan --all      # 忽略记录，全部重审
 记录存在 `.article-review.json`。只改 frontmatter（比如把 `publish` 改成
 `true`）不会触发重审，只有正文变了才算。
 
+## 两个时间
+
+| 字段 | 含义 | 谁来填 |
+|---|---|---|
+| `date` | 发表日，**上线后不再改** | 写文章时 |
+| `updated` | 实质修改日 | 审阅时自动写回 |
+
+`date` 决定首页排序和 RSS 的 `pubDate`。改老文章的 `date` 会让它跳回首页
+顶部、让订阅者收到重复推送——所以修订记在 `updated`，页面上显示成
+「更新于 X」，只在它晚于 `date` 时出现。
+
+`updated` 由 `review-scan --mark` 自动写入 Obsidian：这篇**已经上线过**、
+且正文 SHA-1 变了，才会写。还没发布的草稿改来改去不算更新。
+
+Obsidian 模板由白名单生成，标签有增减就重跑：
+
+```bash
+pnpm run template
+```
+
+（手抄白名单必然会漂——加这个脚本的当天我就凭记忆抄错过一次。）
+
 ## 上线前检查
 
 ```bash

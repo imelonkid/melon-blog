@@ -33,7 +33,12 @@ const hasMath = /\$\$[\s\S]*?\$\$/.test(post.body);
 
   <article class="article">
     <a class="back" href={backHref}>← BACK</a>
-    <div class="stamp">{formatDate(post.date)} · {post.tag} · {post.mins} MIN READ</div>
+    <div class="stamp">
+      {formatDate(post.date)} · {post.tag} · {post.mins} MIN READ
+      {post.updated && post.updated > post.date && (
+        <span class="revised">更新于 {formatDate(post.updated)}</span>
+      )}
+    </div>
     <h1>{post.title}</h1>
     <div class="rule" aria-hidden="true"></div>
     <div class="prose">

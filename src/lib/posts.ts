@@ -11,6 +11,7 @@ export interface Post {
   title: string;
   date: Date;
   tag: string;
+  updated?: Date;
   mins: number;
   excerpt: string;
   entry: Entry;
@@ -71,6 +72,7 @@ function normalize(entry: Entry): Post {
     data: d,
     title: d.title,
     date: d.date,
+    updated: d.updated,
     tag,
     mins: d.mins ?? readingMinutes(body),
     excerpt: d.excerpt ?? deriveExcerpt(body),

@@ -702,3 +702,15 @@ a:hover { opacity: .75; }
     gap: 8px 15px;
   }
 }
+
+/* 文章更新时间：跟在发表信息后面，比正文轻一档，不抢戏 */
+.stamp .revised {
+  margin-left: .6rem;
+  padding-left: .6rem;
+  border-left: 1px solid var(--line);
+  opacity: .72;
+}
+@media (max-width: 560px) {
+  /* 窄屏另起一行，免得把 stamp 挤成两截 */
+  .stamp .revised { display: block; margin: .35rem 0 0; padding: 0; border: 0; }
+}

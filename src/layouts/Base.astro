@@ -40,6 +40,21 @@ const thisYear = new Date().getFullYear();
 
     <ClientRouter />
 
+    <!-- ClientRouter 会把 history.scrollRestoration 设为 manual，交给它自己
+         在脚本执行后恢复滚动。这对客户端翻页是对的，但整页刷新时会先在顶部
+         绘制一帧再跳回原位置，看起来就是闪一下。整页刷新不属于客户端路由，
+         交还给浏览器原生恢复——它在首次绘制前就定位好了，没有闪烁。 -->
+    <script is:inline>
+      // 只在真正的整页加载时接管；客户端切换走的是 astro:* 事件，不经过这里
+      if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+      document.addEventListener('astro:before-preparation', () => {
+        history.scrollRestoration = 'manual';
+      });
+      document.addEventListener('astro:page-load', () => {
+        history.scrollRestoration = 'auto';
+      });
+    </script>
+
     <!-- 按需注入的样式，例如只有含公式的文章才引入 KaTeX -->
     <slot name="head" />
 

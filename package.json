@@ -14,7 +14,8 @@
     "review:scan": "node scripts/review-scan.mjs",
     "deploy": "bash scripts/deploy.sh",
     "preflight": "node scripts/preflight.mjs",
-    "template": "node scripts/build-template.mjs"
+    "template": "node scripts/build-template.mjs",
+    "inspect": "node scripts/inspect-server.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",

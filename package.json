@@ -12,7 +12,8 @@
     "astro": "astro",
     "sync": "node scripts/sync-obsidian.mjs",
     "review:scan": "node scripts/review-scan.mjs",
-    "deploy": "bash scripts/deploy.sh"
+    "deploy": "bash scripts/deploy.sh",
+    "preflight": "node scripts/preflight.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",

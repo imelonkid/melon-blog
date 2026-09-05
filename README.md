@@ -73,24 +73,27 @@ src/
 
 ## 部署
 
-站点是纯静态的（构建产物里没有任何独立 JS 文件，脚本内联在 HTML 里），
-任何能发静态文件的服务器都能托管，不需要 Node 运行时。
-
 ```bash
-pnpm build          # 产物在 dist/
+blog-deploy
 ```
 
-把 `dist/` 里的内容传到服务器根目录即可。OpenResty / nginx 的配置片段见
-[deploy/openresty.conf](deploy/openresty.conf)，涵盖干净 URL、缓存策略、
-gzip 和 404 页。
+一条命令走完：**同步 Obsidian → 上线前检查 → 构建 → 探远端目录 → 上传 → 验证首页**。
+任一步失败就停，不会把半成品推上去。完整说明见
+[docs/发布流程.md](docs/发布流程.md)。
 
-**上传时注意**：站内有中文路径（如 `/posts/令牌桶的java实现`），
-用 `rsync` 或 `tar` 传输以保留 UTF-8 文件名；用 zip 跨平台解压容易
-把中文名弄成乱码，那些文章会 404。
+不要绕过它手敲 `rsync`——路径写错时 rsync 只报 `code 11 error in file IO`，
+不会告诉你是路径不存在。脚本里的远端目录探测就是为这个加的。
 
-```bash
-rsync -avz --delete dist/ user@host:/path/to/site/
-```
+服务器主机、路径、面板端口都是环境变量（`BLOG_*`），定义在
+`~/.zsh/conf.d/env.zsh`。仓库是公开的，代码和文档里只出现变量名，
+换服务器只改那一处。
+
+站点是纯静态的（构建产物里没有独立 JS 文件，脚本内联在 HTML 里），
+不需要 Node 运行时。OpenResty / nginx 配置片段见
+[deploy/openresty.conf](deploy/openresty.conf)。
+
+**站内有中文路径**（如 `/posts/令牌桶的java实现`），传输要用 `rsync` 或 `tar`
+保留 UTF-8 文件名；zip 跨平台解压容易把中文名弄成乱码，那些文章会 404。
 
 ## 在 Obsidian 里写，一条命令发布
 
@@ -152,8 +155,11 @@ blog-deploy        # = 同步 + 构建 + 上传
 /article-review
 ```
 
-审阅 `写点东西/` 下的草稿：错别字、语病、文笔与风格、frontmatter 完整性。
+审阅 `写点东西/` 下的草稿：错别字、语病、文笔与风格、图片、frontmatter、标签。
 只给建议，不直接改文件。
+
+**每篇上线前都要过一遍，没有例外。** `blog-deploy` 里的 preflight 会核对审阅
+记录——标了 `publish: true` 却没审过、或者审完又改了正文的，直接挡住发布。
 
 **增量的**——按正文 SHA-1 比对，已审过且没改动的自动跳过：
 
@@ -165,6 +171,25 @@ pnpm run review:scan --all      # 忽略记录，全部重审
 
 记录存在 `.article-review.json`。只改 frontmatter（比如把 `publish` 改成
 `true`）不会触发重审，只有正文变了才算。
+
+## 上线前检查
+
+```bash
+pnpm run preflight
+```
+
+`blog-deploy` 会自动跑。每条规则都对应踩过的坑：
+
+| 检查 | 因为什么加的 |
+|---|---|
+| 缺图 | Obsidian 里挪动附件后链接变成 `![[子目录/图.png]]`，同步匹配不上，图悄悄没了 |
+| 图片断链 | 正文引用的 `/images/...` 在 `public/` 下不存在 |
+| 百分比宽高 | 裸 `<img width="80%">` 让浏览器算不出高度，刷新时页面会跳 |
+| 未审阅 | 标了 `publish` 却没过 `/article-review` |
+| draft 泄漏 | 本地预览用的草稿混进了构建产物 |
+
+`.image-exceptions.json` 只记录 2017 年迁移时源头就丢了的老图。
+**新文章断链一定是同步或路径出了问题，去修，不要往里加。**
 
 ## 公式与图表
 

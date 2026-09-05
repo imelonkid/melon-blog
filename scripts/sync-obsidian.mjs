@@ -11,9 +11,10 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { vaultRoot, vaultSrc } from './paths.mjs';
 
-const VAULT = '/Users/melonkid/Documents/Knowledge/Notes/Notes/Obsidian/melonkid';
-const SRC_DIR = path.join(VAULT, '写点东西');
+const VAULT = vaultRoot();
+const SRC_DIR = vaultSrc();
 const ROOT = path.resolve(import.meta.dirname, '..');
 const POSTS_DIR = path.join(ROOT, 'src/content/posts');
 const IMG_DIR = path.join(ROOT, 'public/images/notes');
@@ -100,7 +101,7 @@ function transform(body, slug, warn) {
   // ![[图片.png]] / ![[图片.png|说明]] → 复制附件并改成标准 markdown
   out = out.replace(/!\[\[([^\]|]+?)(?:\|([^\]]*))?\]\]/g, (whole, file, alt) => {
     const src = findAttachment(file.trim());
-    if (!src) { warn(`附件找不到：${file.trim()}`); return `<!-- 缺图：${file.trim()} -->`; }
+    if (!src) { warn(`附件找不到：${file.trim()}`, 'error'); return `<!-- 缺图：${file.trim()} -->`; }
     fs.mkdirSync(IMG_DIR, { recursive: true });
     const ext = path.extname(src);
     const target = `${slug}-${path.basename(src, ext).replace(/[^\w一-鿿-]/g, '')}${ext}`;
@@ -135,6 +136,7 @@ function run() {
   const prev = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) : [];
   const written = [];
   const warnings = [];
+  const errors = [];   // 硬错误：图片丢了之类，必须挡住发布
   let skipped = 0;
 
   for (const file of listMarkdown(SRC_DIR)) {
@@ -158,7 +160,8 @@ function run() {
     const tagError = checkTagLocal(tag);
     if (tagError) { warnings.push(`${file}：${tagError}`); continue; }
 
-    const warn = (m) => warnings.push(`${file}：${m}`);
+    const warn = (m, level) =>
+      (level === 'error' ? errors : warnings).push(`${file}：${m}`);
     const out = [
       '---',
       `title: ${JSON.stringify(title)}`,
@@ -188,6 +191,16 @@ function run() {
   log('');
   log(`同步 ${written.length} 篇，跳过 ${skipped} 篇（未标记 publish: true）`);
   if (warnings.length) { log(''); log('注意：'); warnings.forEach((w) => log('  ! ' + w)); }
+
+  if (errors.length) {
+    log('');
+    log('同步失败：');
+    errors.forEach((e) => log('  ✗ ' + e));
+    log('');
+    log('  图片找不到通常是在 Obsidian 里移动过附件——它会把链接改成');
+    log('  ![[子目录/图.png]]。确认图还在 vault 里，然后重跑同步。');
+    process.exitCode = 1;
+  }
 }
 
 run();

@@ -12,8 +12,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { vaultSrc } from './paths.mjs';
 
-const SRC_DIR = '/Users/melonkid/Documents/Knowledge/Notes/Notes/Obsidian/melonkid/写点东西';
+const SRC_DIR = vaultSrc();
 const STATE = path.resolve(import.meta.dirname, '../.article-review.json');
 
 const loadState = () =>

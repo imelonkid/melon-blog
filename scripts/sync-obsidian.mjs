@@ -60,8 +60,21 @@ function parseFrontmatter(text) {
 const unquote = (s) => s.replace(/^["']|["']$/g, '');
 const truthy = (v) => v === true || v === 'true' || v === 'yes';
 
-/** 找 vault 里的附件（Obsidian 的 ![[图.png]] 不带路径） */
-function findAttachment(name) {
+/**
+ * 找 vault 里的附件。
+ * Obsidian 的 ![[…]] 可能只写文件名，也可能带相对 vault 根的路径
+ * （把图片移进子目录后它会自动加上前缀）。先按完整路径找，找不到再
+ * 退回按文件名全库搜。
+ */
+function findAttachment(ref) {
+  const direct = path.join(VAULT, ref);
+  if (fs.existsSync(direct) && fs.statSync(direct).isFile()) return direct;
+  const name = path.basename(ref);
+  return findByName(name);
+}
+
+/** 按文件名在整个 vault 里搜 */
+function findByName(name) {
   const stack = [VAULT];
   while (stack.length) {
     const dir = stack.pop();

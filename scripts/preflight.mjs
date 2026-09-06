@@ -114,6 +114,20 @@ try {
   }
 } catch { /* 笔记目录不是 git 仓库就跳过这项 */ }
 
+// ---- 2.9：草稿不能被 git 跟踪 ----
+// _draft- 是同步过来的未发布笔记，只供本地预览。仓库是公开的，
+// 光靠 .gitignore 不够——一次 git add -f 就漏出去了，所以这里也查一遍。
+try {
+  const tracked = execSync('git ls-files src/content/posts/_draft-*.md', {
+    cwd: ROOT, encoding: 'utf8',
+  }).trim();
+  if (tracked) {
+    fail.push(`草稿文件被 git 跟踪了，未发表的内容会进公开仓库：\n`
+      + tracked.split('\n').map((f) => `      · ${f}`).join('\n')
+      + `\n      git rm --cached <文件> 之后再发布`);
+  }
+} catch { /* 没有匹配就是好的 */ }
+
 // ---- 3：审阅状态 ----
 const bodyHash = (t) => {
   const m = t.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?([\s\S]*)$/);

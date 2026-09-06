@@ -3,8 +3,10 @@
  *
  *   pnpm run sync
  *
- * 只同步 frontmatter 里 publish: true 的笔记——同一个文件夹里的草稿
- * 不会被误发。之前同步过、现在取消了 publish 的，会从博客里移除。
+ * publish: true 的笔记正常发布；publish: false 的也会同步过来，但打上
+ * draft:true 并加 _draft- 前缀——只在 pnpm dev 里可见，不进构建产物，
+ * 也被 gitignore 挡在公开仓库之外。之前发过、现在取消 publish 的，
+ * 会自动降级成草稿。
  *
  * Obsidian 专有语法（双链、嵌入图、callout、%%注释%%）会被转换或剥离，
  * 否则会原样漏到网页上。
@@ -55,6 +57,12 @@ function parseFrontmatter(text) {
     else if (v.startsWith('[') && v.endsWith(']'))
       data[key] = v.slice(1, -1).split(',').map((s) => unquote(s.trim())).filter(Boolean);
     else data[key] = unquote(v);
+  }
+  // 空值上面先存成 []，是为了让后续的 `- 项` 有地方追加。解析完还是空的，
+  // 说明它只是个空字段，得删掉——否则空数组是 truthy，
+  // `data.slug || name` 这类兜底会全部失效，slug 会变成空串。
+  for (const k of Object.keys(data)) {
+    if (Array.isArray(data[k]) && data[k].length === 0) delete data[k];
   }
   return { data, body: m[2] };
 }
@@ -143,7 +151,11 @@ function run() {
     const text = fs.readFileSync(path.join(SRC_DIR, file), 'utf8');
     const { data, body } = parseFrontmatter(text);
 
-    if (!truthy(data.publish)) { skipped++; continue; }
+    // publish: false 的笔记也同步，但打上 draft:true 并加 _draft- 前缀。
+    // 这样 pnpm dev 里能预览排版和配图，构建产物里不会有，
+    // 文件名前缀被 gitignore 挡着，未发表的东西也不会进公开仓库。
+    const isDraft = !truthy(data.publish);
+    if (isDraft) skipped++;
 
     const name = path.basename(file, '.md');
     const title = data.title || name;
@@ -170,15 +182,16 @@ function run() {
       // updated 由审阅环节写入 Obsidian，这里原样透传
       ...(data.updated ? [`updated: ${String(data.updated).slice(0, 10)}`] : []),
       ...(data.excerpt ? [`excerpt: ${JSON.stringify(data.excerpt)}`] : []),
+      ...(isDraft ? ['draft: true'] : []),
       '---',
       '',
       transform(body, slug, warn),
     ].join('\n');
 
-    const outName = `${date}-${slug}.md`;
+    const outName = `${isDraft ? '_draft-' : ''}${date}-${slug}.md`;
     fs.writeFileSync(path.join(POSTS_DIR, outName), out);
     written.push(outName);
-    log(`✓ ${file}  →  ${outName}`);
+    log(`${isDraft ? '·' : '✓'} ${file}  →  ${outName}${isDraft ? '  （草稿，仅本地可见）' : ''}`);
   }
 
   // 取消发布的，从博客移除
@@ -191,7 +204,7 @@ function run() {
   fs.writeFileSync(MANIFEST, JSON.stringify(written.sort(), null, 2) + '\n');
 
   log('');
-  log(`同步 ${written.length} 篇，跳过 ${skipped} 篇（未标记 publish: true）`);
+  log(`同步 ${written.length} 篇，其中 ${skipped} 篇是草稿（未标记 publish，只在 pnpm dev 里可见）`);
   if (warnings.length) { log(''); log('注意：'); warnings.forEach((w) => log('  ! ' + w)); }
 
   if (errors.length) {

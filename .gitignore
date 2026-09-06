@@ -6,3 +6,6 @@ dist/
 
 # 审阅 diff 页面，只作本地发布记录
 .review/
+
+# 未发表的笔记，同步过来只为本地预览，不进公开仓库
+src/content/posts/_draft-*.md

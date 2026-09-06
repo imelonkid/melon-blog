@@ -30,6 +30,12 @@ function bodyHash(text) {
   return crypto.createHash('sha1').update(body).digest('hex').slice(0, 12);
 }
 
+/** 只看标了 publish: true 的笔记 */
+function isPublishing(full) {
+  const m = fs.readFileSync(full, 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  return m ? /^publish:\s*true\s*$/m.test(m[1]) : false;
+}
+
 function listFiles() {
   if (!fs.existsSync(SRC_DIR)) {
     console.error(`目录不存在：${SRC_DIR}`);
@@ -45,7 +51,8 @@ function listFiles() {
     }
     return out;
   };
-  return walk(SRC_DIR).sort();
+  // publish: false 的笔记不审——还没打算发的东西，作者自己还在改
+  return walk(SRC_DIR).filter((f) => isPublishing(path.join(SRC_DIR, f))).sort();
 }
 
 

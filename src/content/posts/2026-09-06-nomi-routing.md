@@ -2,7 +2,6 @@
 title: "别把全部工具交给模型：Nomi 的 Agent 路由设计"
 date: 2026-09-06
 tag: "AI"
-updated: 
 excerpt: "工具一多，问题就变成：模型在每一轮任务里，到底应该看到哪些工具。"
 ---
 

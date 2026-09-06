@@ -75,6 +75,15 @@ for (const f of posts) {
     fail.push(`${f}：正文里有私钥文件名 ${m[0]}`);
 }
 
+// ---- 2.55：正文里不该残留 Obsidian 注释标记 ----
+// %% 注释靠成对出现，注释内容里多一个 %% 就会提前闭合，后半段漏成正文
+for (const f of posts) {
+  const t = fs.readFileSync(path.join(POSTS, f), 'utf8');
+  const n = (t.match(/%%/g) || []).length;
+  if (n) fail.push(`${f}：正文里残留 ${n} 处 %%（Obsidian 注释没被完整剥离）。`
+    + '通常是注释内容里本身含有 %%，导致注释提前闭合');
+}
+
 // ---- 2.6：updated 不能早于 date ----
 for (const f of posts) {
   const t = fs.readFileSync(path.join(POSTS, f), 'utf8');

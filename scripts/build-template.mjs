@@ -42,10 +42,20 @@ publish   改成 true 才会同步到博客。
 slug      网址用，留空则用文件名。技术文建议给英文 slug。
 excerpt   留空则自动取正文首段。
 
-这段注释被 %% 包着，Obsidian 预览和博客上都不会显示。
+这段说明只给自己看，不会出现在博客上。
 %%
 
 `;
+
+// 自检：整份模板必须恰好两个 %%（一开一合）。
+// 注释正文里只要多出一个 %%，Obsidian 和同步脚本都会在那里提前闭合，
+// 后半段说明会漏成正文——2026-09-05 就是这么漏的。
+const marks = (out.match(/%%/g) || []).length;
+if (marks !== 2) {
+  console.error(`模板里有 ${marks} 个 %%，应该是 2 个（一开一合）。`);
+  console.error('注释正文里不能出现字面的 %%，它会让注释提前闭合。');
+  process.exit(1);
+}
 
 const dest = path.join(need('BLOG_VAULT'), 'Templates/博客文章.md');
 fs.writeFileSync(dest, out);

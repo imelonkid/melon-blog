@@ -13,6 +13,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { execSync } from 'node:child_process';
 import { ROOT, vaultSrc } from './paths.mjs';
 
 const POSTS = path.join(ROOT, 'src/content/posts');
@@ -91,6 +92,27 @@ for (const f of posts) {
   const u = (t.match(/^updated:\s*(\S+)/m) || [])[1];
   if (d && u && u < d) fail.push(`${f}：updated (${u}) 早于 date (${d})`);
 }
+
+// ---- 2.8：笔记必须已提交 ----
+//
+// 线上文章由笔记同步生成，笔记才是事实来源。发布前笔记还有未提交的改动，
+// 意味着"线上有什么"和"仓库记录了什么"对不上——出问题时无从回溯改了哪一版。
+try {
+  const vault = process.env.BLOG_VAULT;
+  if (vault && fs.existsSync(path.join(vault, '.git'))) {
+    const dirty = execSync(`git -C "${vault}" status --porcelain -- "写点东西"`, {
+      encoding: 'utf8',
+    }).trim();
+    if (dirty) {
+      const files = dirty.split('\n').map((l) => l.slice(3).replace(/^"|"$/g, ''));
+      fail.push(
+        `Obsidian 笔记有 ${files.length} 处未提交的改动，先提交再发布：\n`
+        + `      git -C "$BLOG_VAULT" add "写点东西" && git -C "$BLOG_VAULT" commit\n`
+        + files.slice(0, 5).map((f) => `      · ${f}`).join('\n'),
+      );
+    }
+  }
+} catch { /* 笔记目录不是 git 仓库就跳过这项 */ }
 
 // ---- 3：审阅状态 ----
 const bodyHash = (t) => {

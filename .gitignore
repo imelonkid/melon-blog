@@ -3,3 +3,6 @@ dist/
 .astro/
 .DS_Store
 
+
+# 审阅 diff 页面，只作本地发布记录
+.review/

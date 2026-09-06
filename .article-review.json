@@ -6,5 +6,21 @@
   "Nomi/Nomi 的 Agent 实践.md": {
     "hash": "c6e751f37735",
     "reviewedAt": "2026-09-06"
+  },
+  "Nomi/01-Nomi 的 Agent 实践.md": {
+    "hash": "2ec4f1683b96",
+    "reviewedAt": "2026-09-06"
+  },
+  "Nomi/02-Nomi 的上下文设计：AI 记住你，不等于保存所有聊天记录.md": {
+    "hash": "897eee4b0089",
+    "reviewedAt": "2026-09-06"
+  },
+  "Nomi/03-为什么 Nomi 要做插件化：让 AI 的能力可扩展、可管理.md": {
+    "hash": "6ea6e0c26204",
+    "reviewedAt": "2026-09-06"
+  },
+  "Nomi/04-别把全部工具交给模型：Nomi 的 Agent 路由设计.md": {
+    "hash": "6a62d61070f4",
+    "reviewedAt": "2026-09-06"
   }
 }

@@ -249,11 +249,21 @@ git -C "$BLOG_VAULT" commit -m "review: <文章名> 的修改建议（待审）
 - …"
 ```
 
-然后把 diff 摘要给用户：
+然后**生成 HTML diff 页面并发给用户**——不要让他去命令行看：
 
 ```bash
-git -C "$BLOG_VAULT" diff --stat HEAD~1 HEAD -- "写点东西"
+cd ~/Workspace/melon-blog && node scripts/review-diff.mjs HEAD~1 HEAD
 ```
+
+页面写到 `.review/`（已 gitignore，只作本地发布记录）：按日期归档一份，
+外加一份 `latest.html`。用 SendUserFile 把 `latest.html` 发过去。
+
+这个页面做了**逐字对比**——中文散文改几个字，`git diff` 会整行标红整行标绿，
+眼睛得自己找差在哪；这里只高亮真正变动的字符。这是它值得存在的唯一理由，
+所以别退回去用 `--stat` 或者在对话里复述改动。
+
+范围参数按需给：改动跨了几个 commit 就 `HEAD~3 HEAD`，只看某一次就
+`HEAD~2 HEAD~1`。
 
 **第 4 步，用户点头之后再发布。** 用户要是不满意，`git revert` 或者按他的意见
 再改一版，重新提交——不要在对话里反复口头描述改动。

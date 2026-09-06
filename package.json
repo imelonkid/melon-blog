@@ -15,7 +15,8 @@
     "deploy": "bash scripts/deploy.sh",
     "preflight": "node scripts/preflight.mjs",
     "template": "node scripts/build-template.mjs",
-    "review:diff": "node scripts/review-diff.mjs"
+    "review:diff": "node scripts/review-diff.mjs",
+    "tag:publish": "node scripts/tag-publish.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",

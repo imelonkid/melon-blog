@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { need, ROOT } from './paths.mjs';
+import { latestPubTag } from './vault.mjs';
 
 const VAULT = need('BLOG_VAULT', 'Obsidian vault 根目录');
 const OUT_DIR = path.join(ROOT, '.review');
@@ -126,7 +127,8 @@ function renderRows(rows) {
 
 function main() {
   const [a, b] = process.argv.slice(2);
-  const from = a ?? 'HEAD~1';
+  // 不给参数就看「上次发布以来」的全部增量——这才是审阅真正关心的范围
+  const from = a ?? latestPubTag() ?? 'HEAD~1';
   const to = b ?? 'HEAD';
 
   const raw = git('diff', '--no-color', '-M', from, to, '--', SUBPATH);

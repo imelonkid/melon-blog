@@ -25,9 +25,33 @@ description: 审阅「纸上得来」博客待发布的文章——错别字、�
 
 ## 一、先确定审哪几篇
 
+**第一件事是看笔记仓库的历史，找到上次发布的基线。**
+
+```bash
+git -C "$BLOG_VAULT" log --oneline -8 -- "写点东西"
+git -C "$BLOG_VAULT" tag --list 'pub/*' --sort=-creatordate | head -3
+```
+
+`pub/YYYYMMDD-N` 是发布 tag，每次成功上线后自动打的，代表**这个笔记状态
+已经在线上了**。所以：
+
+> 审阅的范围 = 最新的 pub tag → 现在
+
+tag 之前的内容审过也发过了，别再看第二遍；tag 之后的（包括还没提交的改动）
+才是这次要审的增量。
+
+```bash
+git -C "$BLOG_VAULT" diff --stat "$(git -C "$BLOG_VAULT" tag --list 'pub/*' --sort=-creatordate | head -1)" HEAD -- "写点东西"
+git -C "$BLOG_VAULT" status --porcelain -- "写点东西"     # 还没提交的
+```
+
+然后跑扫描脚本，它会把 tag 和逐篇哈希两件事合起来告诉你：
+
 ```bash
 cd ~/Workspace/melon-blog && node scripts/review-scan.mjs
 ```
+
+输出会先报「上次发布：pub/… / 自那以后动过 N 篇」，再列出待审文章。
 
 输出的就是待审文章的完整路径。**不要自己遍历目录**——脚本按正文 SHA-1 比对，
 已审过且没改动的会自动跳过，这是"不重复分析"的关键。
@@ -265,7 +289,9 @@ cd ~/Workspace/melon-blog && node scripts/review-diff.mjs HEAD~1 HEAD
 范围参数按需给：改动跨了几个 commit 就 `HEAD~3 HEAD`，只看某一次就
 `HEAD~2 HEAD~1`。
 
-**第 4 步，用户点头之后再发布。** 用户要是不满意，`git revert` 或者按他的意见
+**第 4 步，用户点头之后再发布。** 发布成功后 `deploy.sh` 会自动在笔记仓库打一个
+`pub/YYYYMMDD-N` tag，作为下次审阅的基线。**失败就不打**——否则基线指向一个
+从没上线的状态，下次会漏掉真正的增量。 用户要是不满意，`git revert` 或者按他的意见
 再改一版，重新提交——不要在对话里反复口头描述改动。
 
 ## 五、记录审阅状态

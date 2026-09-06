@@ -13,6 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { vaultSrc } from './paths.mjs';
+import { latestPubTag, changedSince, isDirty } from './vault.mjs';
 
 const SRC_DIR = vaultSrc();
 const STATE = path.resolve(import.meta.dirname, '../.article-review.json');
@@ -123,7 +124,21 @@ if (args[0] === '--status') {
   process.exit(0);
 }
 
-const todo = args.includes('--all') ? rows : rows.filter((r) => r.status !== '未变');
+// 发布 tag 是「已上线」的基线。tag 之后动过的，就是这次要审的增量；
+// 哈希状态文件仍然保留，用来标记"这篇我逐字看过了"——两者管的事不一样。
+const tag = latestPubTag();
+let sinceTag = null;
+try { sinceTag = tag ? new Set(changedSince(tag)) : null; } catch { sinceTag = null; }
+
+const todo = args.includes('--all')
+  ? rows
+  : rows.filter((r) => (sinceTag ? sinceTag.has(r.file) : true) && r.status !== '未变');
+
+if (tag) {
+  const n = sinceTag ? sinceTag.size : 0;
+  console.log(`\n上次发布：${tag}${isDirty() ? '（笔记有未提交改动）' : ''}`);
+  console.log(`自那以后动过 ${n} 篇`);
+}
 if (!todo.length) {
   console.log('没有需要审阅的文章——全部已审阅且未改动。');
   process.exit(0);

@@ -38,3 +38,9 @@ printf '  首页    %s · %ss\n' "$code" "$(curl -s -o /dev/null -w '%{time_tota
 printf '  文章    %s\n' "$(curl -s "$BLOG_SITE/" | grep -o '[0-9]* POSTS' | head -1)"
 [[ "$code" == 200 ]] || { echo "  首页不是 200，去看 nginx"; exit 1; }
 echo "  ✓ 已上线 $BLOG_SITE"
+
+# 验证通过之后才打发布 tag。失败时不打——否则基线会指向一个从没上线的状态，
+# 下次审阅就会漏掉真正的增量
+echo
+echo "▸ 记录发布基线"
+node scripts/tag-publish.mjs

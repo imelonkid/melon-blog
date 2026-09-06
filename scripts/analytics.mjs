@@ -40,8 +40,16 @@ function fetchLog() {
     + '  [ -e "$f" ] || continue; '
     + '  case "$f" in *.gz) zcat "$f";; *) cat "$f";; esac; '
     + 'done 2>/dev/null';
-  return execFileSync('ssh', ['-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', SSH, cmd],
-    { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  try {
+    return execFileSync('ssh', ['-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', SSH, cmd],
+      { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  } catch (e) {
+    // 连不上服务器，绝不能表现得像"没有访问数据"——那是两件完全不同的事
+    console.error(`\n  连不上服务器（${SSH}），拿不到埋点日志。`);
+    console.error('  这不等于"没人访问"，是这次采集失败了。');
+    console.error(`  ${(e.stderr || e.message || '').toString().trim().split('\n')[0]}\n`);
+    process.exit(1);
+  }
 }
 
 function parse(raw) {

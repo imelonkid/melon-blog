@@ -66,6 +66,14 @@ function parse(raw) {
   return rows;
 }
 
+
+/** 交互式终端里跑完直接打开；被脚本或定时任务调用时不弹窗 */
+function reveal(file) {
+  console.log(`\n  ${file}`);
+  if (!process.stdout.isTTY) return;
+  try { execFileSync('open', [file]); } catch { /* 非 macOS 就算了 */ }
+}
+
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -226,7 +234,7 @@ ${bars(Object.entries(buckets).map(([k, n]) => ({ k, n })))}
 
   console.log(`\n  最近 ${DAYS} 天：${views.length} 次浏览 · ${uvAll} 位访客 · 完读率 ${views.length ? Math.round((reads.length / views.length) * 100) : 0}%`);
   ranked.slice(0, 6).forEach((r) => console.log(`    ${String(r.pv).padStart(4)}  ${r.rate}%  ${r.title.slice(0, 34)}`));
-  console.log(`\n  ${file}`);
+  reveal(path.join(OUT_DIR, 'stats.html'));
 }
 
 main();

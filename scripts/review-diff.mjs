@@ -107,6 +107,14 @@ function parseDiff(raw) {
   return files.filter((f) => f.rows.length);
 }
 
+
+/** 交互式终端里跑完直接打开；被脚本或定时任务调用时不弹窗 */
+function reveal(file) {
+  console.log(`\n  ${file}`);
+  if (!process.stdout.isTTY) return;
+  try { execFileSync('open', [file]); } catch { /* 非 macOS 就算了 */ }
+}
+
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -223,11 +231,11 @@ ${files.length ? files.map((f) => `
   const stamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 13);
   const file = path.join(OUT_DIR, `diff-${stamp}.html`);
   fs.writeFileSync(file, html);
-  fs.writeFileSync(path.join(OUT_DIR, 'latest.html'), html);
+  fs.writeFileSync(path.join(OUT_DIR, 'diff.html'), html);
 
   console.log(`\n  ${files.length} 个文件 · +${totalAdd} / −${totalDel} 行`);
   files.forEach((f) => console.log(`    ${f.short}  +${f.add} / −${f.del}`));
-  console.log(`\n  ${file}`);
+  reveal(path.join(OUT_DIR, 'diff.html'));
 }
 
 main();

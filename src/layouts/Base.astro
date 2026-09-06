@@ -66,6 +66,63 @@ const thisYear = new Date().getFullYear();
       crossorigin
     />
 
+    {/*
+      自建埋点。只发到本站的 /_a——服务端写一行日志就返回 204，没有第三方、
+      没有 cookie，log_format 里也没有 IP 和 UA。爬虫不执行 JS，所以这份数据
+      天生干净，不用维护一串 bot 正则。
+
+      放在 head 里：ClientRouter 切页时 head 不重新执行，监听器只注册一次，
+      靠 astro:page-load 驱动每一次页面（含客户端翻页）。
+
+      发两个事件：
+        view  进入页面
+        read  滚过 70% 或停留满 30 秒——对博客来说完读率比 PV 有意义，
+              PV 说明标题吸引人，完读率才说明正文站得住
+
+      注意：这段是 is:inline，写在里面的注释会原样发给每一位读者。
+      所以解释放在这个 {…} 注释里（编译时丢弃），脚本内只留必要的短注。
+    */}
+    <script is:inline>
+      (function () {
+        // 尊重 DNT；本地不发，免得自己调试污染数据
+        if (navigator.doNotTrack === '1' || /^(localhost|127\.|\[?::1)/.test(location.hostname)) return;
+        var vid;
+        try {
+          vid = localStorage.getItem('_v');
+          if (!vid) { vid = Math.random().toString(36).slice(2, 10); localStorage.setItem('_v', vid); }
+        } catch (e) { vid = 'anon'; }  // 隐私模式存不了就不区分访客
+        var t0 = 0, deep = false, done = true;
+        function send(ev, dwell) {
+          var ref = '';
+          try {
+            var r = document.referrer;
+            if (r && new URL(r).host !== location.host) ref = new URL(r).host;
+          } catch (e) {}
+          var u = '/_a?e=' + ev + '&v=' + vid + '&p=' + encodeURIComponent(location.pathname)
+            + '&r=' + encodeURIComponent(ref) + '&w=' + innerWidth + (dwell ? '&d=' + dwell : '');
+          if (navigator.sendBeacon) navigator.sendBeacon(u); else new Image().src = u;
+        }
+        function finish() {
+          if (done) return;
+          var d = Math.round((Date.now() - t0) / 1000);
+          if (deep || d >= 30) { done = true; send('read', d); }
+        }
+        document.addEventListener('astro:page-load', function () {
+          t0 = Date.now(); deep = false; done = false; send('view');
+        });
+        document.addEventListener('astro:before-preparation', finish);
+        addEventListener('pagehide', finish);
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'hidden') finish();
+        });
+        addEventListener('scroll', function () {
+          if (deep) return;
+          var h = document.documentElement;
+          if (h.scrollHeight && (h.scrollTop + innerHeight) / h.scrollHeight > 0.7) deep = true;
+        }, { passive: true });
+      })();
+    </script>
+
     <!-- 图片加载失败时换成占位块，避免浏览器那个破图标。
          CSS 没有「加载失败」选择器，只能靠 JS；error 事件不冒泡，
          所以在 window 上用捕获阶段监听。 -->

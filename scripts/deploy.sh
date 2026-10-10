@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# 纸上得来 —— 发布流程。审阅 → 同步 → 体检 → 构建 → 上线 → 验证。
+# 朝花夕拾 —— 发布流程。审阅 → 同步 → 体检 → 构建 → 上线 → 验证。
 # 任一步失败就停，不会把半成品推上去。
 #
-# 服务器坐标全部来自环境变量，定义在 ~/.zsh/conf.d/env.zsh 的「纸上得来」一段。
+# 服务器坐标全部来自环境变量，定义在 ~/.zsh/conf.d/env.zsh 的「朝花夕拾」一段。
 # 仓库是公开的，所以这里只出现变量名。
 set -euo pipefail
 
 for v in BLOG_REPO BLOG_SITE BLOG_SSH BLOG_WEBROOT; do
   [[ -n "${!v:-}" ]] || {
-    echo "缺少环境变量 $v —— 见 ~/.zsh/conf.d/env.zsh 的「纸上得来」一段"
+    echo "缺少环境变量 $v —— 见 ~/.zsh/conf.d/env.zsh 的「朝花夕拾」一段"
     echo "刚加过的话，开个新终端或 source ~/.zshrc"
     exit 1
   }

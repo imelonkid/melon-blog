@@ -41,13 +41,13 @@
   }
 }
 
-/* 站名专用：毛笔楷仅子集了「纸上得来」四个字，2.1KB，与站点同源 */
+/* 站名专用：毛笔楷仅子集了「朝花夕拾」四个字，2.5KB，与站点同源 */
 @font-face {
   font-family: 'Brand Kai';
-  src: url('/fonts/brand-mashanzheng.woff2') format('woff2');
+  src: url('/fonts/brand-mashanzheng-zhxs.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
-  unicode-range: U+7EB8, U+4E0A, U+5F97, U+6765;
+  unicode-range: U+671D, U+82B1, U+5915, U+62FE;
 }
 
 *, *::before, *::after { box-sizing: border-box; }

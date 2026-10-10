@@ -8,7 +8,7 @@ export function need(name, hint) {
   const v = process.env[name];
   if (!v) {
     console.error(`\n缺少环境变量 ${name}${hint ? `（${hint}）` : ''}`);
-    console.error('定义在 ~/.zsh/conf.d/env.zsh 的「纸上得来」一段。');
+    console.error('定义在 ~/.zsh/conf.d/env.zsh 的「朝花夕拾」一段。');
     console.error('如果刚加过，开个新终端或者 source ~/.zshrc 再试。\n');
     process.exit(1);
   }

@@ -1,5 +1,5 @@
 export const SITE = {
-  title: '纸上得来',
+  title: '朝花夕拾',
   intro: '写字是慢下来的方式。这里记一些日常的、微小的、值得留下的东西。',
   since: 2017,
   motto: '慢慢写',
